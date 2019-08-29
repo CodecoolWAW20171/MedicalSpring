@@ -33,7 +33,7 @@ public class Treatment {
     private String description;
 
     @OneToMany(mappedBy = "primaryKey.treatment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<VisitTreatment> visitTreatments = new HashSet<VisitTreatment>();
+    private Set<VisitTreatment> visitTreatments = new HashSet<>();
 
     public Set<VisitTreatment> geVisitTreatments() {
         return visitTreatments;
