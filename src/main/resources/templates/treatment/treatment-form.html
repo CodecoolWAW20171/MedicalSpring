@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        .error-sign {
+            color:red;
+        }
+        .errorBorder {
+            color:red;
+            border-style: solid;
+            border-color: coral;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+    <p class="btn btn-info btn-sm mb-3 mt-3">Wypełnij aby dodać nowe świadczenie</p>
+
+    <form action="#" th:action="@{/treatments/add-treatment}" th:object="${treatment}" method="POST">
+        <div class="container">
+
+            <!--            for UPDATE -->
+            <input type="hidden" th:field="*{treatmentId}"/>
+
+            <div class="mb-4">
+                <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? 'form-control  col-5 is-invalid' : 'form-control col-5'" placeholder="Nazwa"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+            </div>
+            <div class="mb-4">
+                <input type="text" th:field="*{description}" th:class="${#fields.hasErrors('description')}? 'form-control  col-5 is-invalid' : 'form-control col-5'" placeholder="Opis"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></mark>
+            </div>
+
+            <div class="form-group">
+                <label for="selectcategory">Wybierz kategorię</label>
+                <select class="form-control" id="selectcategory" th:field="*{categoryId}">
+                    <option th:each="category : ${categories}" th:value="${category.getCategoryId()}" th:text="${category.getName()}"></option>
+                </select>
+            </div>
+
+
+
+            <input type="submit" class="btn btn-outline-primary col-4" value="ZAPISZ">
+            <input type="reset" class="btn btn-outline-secondary col-1">
+        </div>
+
+    </form>
+
+    <a class="btn btn-outline-dark mb-3 mt-3" th:href="@{/treatments}">Powrót do listy</a>
+</div>
+
+</body>
+</html>

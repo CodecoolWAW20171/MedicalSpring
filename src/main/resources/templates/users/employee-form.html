@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- JS and JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/theSameContent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/peselValidation.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</head>
+<body onload="ParsePesel();">
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu"/>
+</div>
+
+
+<form action="#" th:action="@{/employees/addNewEmployee}" th:object="${employee}" method="POST">
+    <div class="container">
+        <p class="btn btn-info btn-sm mb-3 mt-3">Wypełnij aby dodać nowego pracownika</p>
+
+        <div class="row">
+            <div class="col-md-5">
+
+                <h3>DANE:</h3>
+                <!--            for UPDATE -->
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <input id="pesel" onkeyup="ParsePesel();" type="text" th:field="*{pesel}"
+                           th:class="${#fields.hasErrors('pesel')}? 'form-control   is-invalid' : 'form-control '"
+                           placeholder="Pesel"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('pesel')}"
+                          th:errors="*{pesel}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input id="birthday" type="date" th:field="*{birthday}"
+                           th:class="${#fields.hasErrors('birthday')}? 'form-control  is-invalid' : 'form-control'"
+                           placeholder="Data"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('birthday')}"
+                          th:errors="*{birthday}"></mark>
+                </div>
+
+                <div class="mb-3">
+                    <input id="sex" type="text" th:field="*{sex}"  th:class="${#fields.hasErrors('sex')}? 'form-control  is-invalid' : 'form-control'"   placeholder="Sex"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{name}"
+                           th:class="${#fields.hasErrors('name')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Imię"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{surname}"
+                           th:class="${#fields.hasErrors('surname')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Nazwisko"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('surname')}"
+                          th:errors="*{surname}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{login}"
+                           th:class="${#fields.hasErrors('login')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Login"/>
+                    <mark class="error-sign small"
+                          th:errors="*{login}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="password" th:field="*{password}" id="password"
+                           th:class="${#fields.hasErrors('password')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Hasło"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('password')}"
+                          th:errors="*{password}">
+                    </mark>
+                </div>
+                <div></div>
+                <div class="form-group">
+                    <label for="role-select">
+                        <select id="role-select" class="form-control" th:field="*{permissions}">
+                            <option th:value="ADMIN" th:text="ADMIN"></option>
+                            <option th:value="NURSE" th:text="NURSE"></option>
+                        </select>
+                    </label>
+                </div>
+
+                <h3>ADRES:</h3>
+                <div class="mb-3">
+                    <input type="text" th:field="*{community}"
+                           th:class="${#fields.hasErrors('community')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Gmina"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('community')}"
+                          th:errors="*{community}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{zipCode}"
+                           th:class="${#fields.hasErrors('zipCode')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Kod pocztowy"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('zipCode')}"
+                          th:errors="*{zipCode}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{city}"
+                           th:class="${#fields.hasErrors('city')}? 'form-control  is-invalid' : 'form-control'"
+                           placeholder="Miasto"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{street}"
+                           th:class="${#fields.hasErrors('street')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Ulica"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('street')}"
+                          th:errors="*{street}"></mark>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{houseNumber}"
+                           th:class="${#fields.hasErrors('houseNumber')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Numer domu"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('houseNumber')}"
+                          th:errors="*{houseNumber}"></mark>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" th:field="*{apartmentNumber}"
+                           th:class="${#fields.hasErrors('apartmentNumber')}? 'form-control is-invalid' : 'form-control'"
+                           placeholder="Numer mieszkania"/>
+                    <mark class="error-sign small" th:if="${#fields.hasErrors('apartmentNumber')}"
+                          th:errors="*{apartmentNumber}"></mark>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" class="btn btn-outline-primary col-4" value="ZAPISZ">
+            <input type="reset" class="btn btn-outline-secondary col-4">
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

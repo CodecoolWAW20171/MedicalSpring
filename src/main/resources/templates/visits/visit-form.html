@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css}"/>
+    <!-- JS and JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/theSameContent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/peselValidation.js}"></script>
+    <script type="text/javascript" th:src="@{/js/removeRequired.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tableC.css}"/>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+
+<!--    <p class="btn btn-info btn-sm mb-1 mt-1">Fill form to add new visit</p>-->
+
+    <form action="#" th:action="@{/visits/{action}/addNewVisit(action='edit')}" th:object="${visit}" method="POST">
+        <input type="hidden" th:value="${patientId}" name="visitPatientId" />
+        <input type="hidden" th:value="${employeeId}" name="visitEmployeeId" />
+        <!--            for UPDATE -->
+        <input type="hidden" th:field="*{visitId}"/>
+
+        <div class="container mt-2">
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="row">
+                        <div class="card" style="width:100%">
+                            <h2 class="text-center mb-2 mt-2" th:text="${visit.patient.name + ' ' + visit.patient.surname}"></h2>
+                            <img class="card-img-top rounded mx-auto d-block " th:src="@{/images/avatar.png}" alt="Card image" style="width:60%" src="">
+                            <div class="card-body">
+                                <h6 class="card-title mb-1">Adres</h6>
+                                    <p class="list-group-item" >
+                                        <th:block th:text="${visit.patient.street + ' ' + visit.patient.houseNumber + '/' + visit.patient.apartmentNumber}"/>    <br/>
+                                        <th:block th:text="${#strings.substring(visit.patient.zipCode,0,2) +'-'+ #strings.substring(visit.patient.zipCode,2,5) +', '+ visit.patient.city}"/>
+                                    </p>
+
+                                <h6 class="card-title mb-1 mt-3">Kontakt</h6>
+                                    <p class="list-group-item" >
+                                        <th:block th:text="${'+48 ' + visit.patient.mobilePhoneNumber}"/> <br/>
+                                        <th:block th:text="${'+48 ' + visit.patient.workPhoneNumber}"/>  <br/>
+                                        <th:block th:text="${'+48 ' + visit.patient.homePhoneNumber}"/>
+                                    </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="card" style="width:100%">
+                            <div class="card-body pt-0 pb-0">
+                                <label class="col-form-label" for="visitDate1">Data wizyty</label>
+                                <div class="form-group row pl-1">
+                                    <div class="col-8">
+                                        <input th:unless="${visit.getVisitStatus()}" id="visitDate1" type="date" th:field="*{visitDate}" th:class="${#fields.hasErrors('visitDate')}? 'is-invalid form-control' : 'form-control'"  />
+                                        <input th:if="${visit.getVisitStatus()}" id="visitDate1" type="date" th:field="*{visitDate}" th:class="form-control" disabled/>
+
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="error-sign col-form-label" th:if="${#fields.hasErrors('visitDate')}" th:errors="*{visitDate}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <input type="submit" value="Wyślij" class="btn btn-outline-primary w-100">
+                        <a class="btn btn-outline-dark mb-1 mt-1" th:href="@{/visits/}">Wstecz</a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-8 pr-0">
+                    <div class="card w-100 pb-0 mb-0">
+                        <div class="card-body w-100 mt-0 mb-0 ">
+                            <div class="btn-group btn-group-justified w-100" role="group" aria-label="...">
+                                <button type="submit" name="addRow" th:value="11" class=" btn btn-outline-secondary buttonBackground1"><i class="far fa-eye"></i></button>
+                                <button type="submit" name="addRow" th:value="12" class=" btn btn-outline-secondary"><i class="fas fa-syringe"></i></button>
+                                <button type="submit" name="addRow" th:value="13" class=" btn btn-outline-secondary"><i class="fas fa-procedures"></i></button>
+                                <button type="submit" name="addRow" th:value="14" class=" btn btn-outline-secondary"><i class="fas fa-stethoscope"></i></button>
+                                <button type="submit" name="addRow" th:value="15" class=" btn btn-outline-secondary"><i class="fas fa-user-shield"></i></button>
+                                <button type="submit" name="addRow" th:value="16" class=" btn btn-outline-secondary"><i class="fas fa-home"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <table class="table">
+                                <tbody th:each="visitTreatment,visitTreatmentStat : *{visitTreatments}">
+                                    <tr>
+                                        <td class="align-left text-center" th:text="${visitTreatmentStat.count}">1xxx</td>
+                                        <!--                                    onchange="checkMedicine()"-->
+                                        <td>
+                                            <select th:id="${visitTreatmentStat.count}" class="diffrentService form-control" onchange="checkServiceContent()" id="selectMedicine"
+                                                    th:field="*{visitTreatments[__${visitTreatmentStat.index}__].primaryKey.treatment}"
+                                                    th:required="true" >
+                                                <option value="" th:disabled="false" th:selected="true" formnovalidate>
+                                                    Wybierz świadczenie >> </option>
+                                                <option th:if="*{visitTreatments[__${visitTreatmentStat.index}__].primaryKey.treatment == null}"
+                                                        th:each="treatmentToAdd : ${selectedTreatments}"
+                                                        th:value="${treatmentToAdd.getTreatmentId()}"
+                                                        th:text="${treatmentToAdd.getName()}">Thymus Thymi
+                                                </option>
+                                                <option th:unless="*{visitTreatments[__${visitTreatmentStat.index}__].primaryKey.treatment == null}"
+                                                        th:each="treatmentToAdd : ${allTreatments}"
+                                                        th:value="${treatmentToAdd.getTreatmentId()}"
+                                                        th:text="${treatmentToAdd.getName()}">Thymus Thymi
+                                                </option>
+                                            </select>
+
+<!--                                            <label th:text="tutaj + *{visitTreatments[__${visitTreatmentStat.index}__].primaryKey.treatment}">ttt</label>-->
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="submit" name="removeRow" th:value="${visitTreatmentStat.index}"
+                                                    class="btn btn-outline-danger" th:onclick="'removeRequired(\'' + ${visitTreatmentStat.count} + '\');'"
+                                            >Usuń świadczenie
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" class="w-100 pb-0 mb-0">
+                                            <label class="w-100 pb-0 mb-0">
+                                                <textarea class="form-control" style="width: 100%" placeholder="note" rows="1" th:field="*{visitTreatments[__${visitTreatmentStat.index}__].note}"></textarea>
+                                            </label>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

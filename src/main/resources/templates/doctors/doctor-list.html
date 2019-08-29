@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+
+
+
+<div class="container ">
+
+    <!--    Add a button-->
+    <a th:href="@{/doctors/showFormForAddDoctor}"
+       class="btn btn-info btn-sm mb-3 mt-3">
+        Dodaj nowego lekarza
+    </a>
+
+    <table class="table table-striped table-hover table-sm">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>IMIĘ</th>
+            <th>NAZWISKO</th>
+            <th>NUMER TELEFONU SŁUŻBOWEGO</th>
+            <th>NUMER TELEFONU KOMÓRKOWEGO</th>
+            <th>KOMENTARZE</th>
+            <th>USUŃ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="doctor : ${doctors}">
+            <td th:text="${doctor.id}" ></td>
+            <td th:text="${doctor.name}" class="funny"></td>
+            <td th:text="${doctor.surname}" class="funny"></td>
+            <td th:text="${doctor.workPhoneNumber}" class="funny"></td>
+            <td th:text="${doctor.mobilePhoneNumber}" class="funny"></td>
+            <td th:text="${doctor.comments}" class="funny"></td>
+            <td>
+                <a th:href="@{/doctors/showFormForEditDoctor(doctorIdToEdit=${doctor.id})}"
+                   class="btn btn-info btn-sm">Update</a>
+            </td>
+            <td>
+                <a th:href="@{/doctors/delete(doctorIdToDelete=${doctor.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if(!(confirm('Czy jesteś pewien?')))return false">Delete</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+</body>
+</html>

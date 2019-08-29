@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tableC.css}"/>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/searchPatient.js}"></script>
+
+</head>
+<body>
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+
+    <!--    Add a button-->
+    <a th:href="@{/patients/showFormForAddPatient}"
+       class="btn btn-info btn-sm mb-3 mt-3">
+        Dodaj nowego pacjenta <i class="fas fa-user-edit"></i>
+    </a>
+
+    <div class="container">
+
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+            <table  id="myTable" class="text-nowrap fixed_headers table table-striped table-hover table-sm table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <td colspan="13">
+                        <a class="text-right" data-toggle="collapse" data-target="#target2">
+                            Zaawansowane wyszukiwanie ...
+                        </a>
+                    </td>
+                </tr>
+                <tr class="text-sm-center">
+                    <th>ID</th>
+                    <th>PESEL</th>
+                    <th>NAZWISKO</th>
+                    <th>IMIĘ</th>
+                    <th>DATA</th>
+                    <th>KOD</th>
+                    <th>MIASTO</th>
+                    <th>ULICA</th>
+                    <th>DOM</th>
+                    <th>NR</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr id="target2" class="collapse">
+                    <th></th>
+                    <th><input type="text" style="width: 100%" id="pesel" onkeyup="searchByPesel()" placeholder="pesel" >            </th>
+                    <th><input type="text" style="width: 100%" id="surname" onkeyup="searchBySurname()" placeholder="nazwisko" >            </th>
+                    <th><input type="text" style="width: 100%" id="name" onkeyup="searchByName()" placeholder="imię" >            </th>
+                    <th><input type="text" style="width: 100%" id="birthday" onkeyup="birthday()" placeholder="data" >            </th>
+                    <th><input type="text" style="width: 100%" id="zip" onkeyup="zip()" placeholder="kod" >            </th>
+                    <th><input type="text" style="width: 100%" id="city" onkeyup="city()" placeholder="miasto" >            </th>
+                    <th><input type="text" style="width: 100%" id="street" onkeyup="street()" placeholder="ulica" >            </th>
+                    <th><input type="text" style="width: 100%" id="hNumber" onkeyup="hNumber()" placeholder="" >            </th>
+                    <th><input type="text" style="width: 100%" id="aNumber" onkeyup="aNumber()" placeholder="" >            </th>
+                    <th>-</th>
+                    <th>-</th>
+                    <th>-</th>
+                </tr>
+                </thead>
+
+                <tbody class="text-right">
+                <tr th:each="patient : ${patientList}">
+                    <td>
+                        <a th:href="@{/patients/showPatientDetails(patientIdDetails=${patient.patientId})}">
+                            <span th:if="${patient.sex == 'Kobieta'}" style="font-size: 1em; color: mediumvioletred;"><i class="far fa-user"></i></span>
+                            <span th:unless="${patient.sex == 'Kobieta'}" style="font-size: 1em; color: dodgerblue;"><i class="far fa-user"></i></span>
+
+                            <span th:text="${patient.patientId}" th:if="${patient.sex == 'Kobieta'}" style="font-size: 1em; color: mediumvioletred;"></span>
+                            <span th:text="${patient.patientId}" th:unless="${patient.sex == 'Kobieta'}" style="font-size: 1em; color: dodgerblue;"></span>
+
+                        </a>
+                    </td>
+                    <td th:text="${patient.pesel}" > </td>
+                    <td th:text="${patient.surname}"></td>
+                    <td th:text="${patient.name}" ></td>
+                    <td th:text="${patient.birthday}" ></td>
+                    <td th:text="${patient.zipCode}" ></td>
+                    <td th:text="${patient.city}" ></td>
+                    <td th:text="${patient.street}" ></td>
+                    <td th:text="${patient.houseNumber}" ></td>
+                    <td th:text="${patient.apartmentNumber}" ></td>
+
+                <td class="text center text-nowrap">
+                    <a th:href="@{mails/show-mail-form(patientId=${patient.patientId})}">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </td>
+
+                <td class="text-center text-nowrap">
+
+                        <a th:href="@{/visits/showFormForAddVisit(patientId=${patient.patientId})}">
+                            <span style="font-size: 1em; color: green;"><i class="fas fa-user-nurse"></i></span>
+                        </a>
+
+
+
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/patients/showFormForEditPatient(patientIdToEdit=${patient.patientId})}">
+                    <span style="font-size: 1em; color: dodgerblue;">
+                            <i class="fas fa-user-edit"></i>
+                    </span>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a th:href="@{/patients/delete(patientIdToDelete=${patient.patientId})}"
+                           onclick="if(!(confirm('Czy jesteś pewien?')))return false">
+                        <span style="font-size: 1em; color: firebrick;">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+
+
+
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+    </div>
+    <div class="text-center"><br>
+        <p>@2019 - Medical Spring, All Right Reserved.</p>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</body>
+</html>

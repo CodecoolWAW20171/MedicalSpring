@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+    <h3 th:text="${employee.name + ' ' + employee.surname}"  ></h3>
+
+    <ul class="list-group list-group-flush" >
+        <li class="list-group-item" th:text="${'PESEL: ' +employee.pesel}"></li>
+        <li class="list-group-item" th:text="${'Data urodzenia: ' +employee.birthday}"></li>
+    </ul><br>
+
+    <p class="text-uppercase font-weight-bold">Adres:</p>
+    <ul class="list-group list-group-flush" >
+        <li class="list-group-item" th:text="${employee.community}"></li>
+        <li class="list-group-item" th:text="${employee.zipCode +', ' +employee.city}"></li>
+        <li class="list-group-item" th:text="${employee.street + ' ' +employee.houseNumber +'/' +employee.apartmentNumber }"></li>
+    </ul>
+</div>
+</body>
+</html>

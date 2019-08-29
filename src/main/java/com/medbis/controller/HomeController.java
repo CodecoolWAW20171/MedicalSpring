@@ -1,0 +1,18 @@
+package com.medbis.controller;
+
+import com.medbis.security.UserPrincipal;
+import com.medbis.security.UserPrinicipalDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("login")
+        public String showLoginForm(){
+        return "users/login";
+    }
+}
+

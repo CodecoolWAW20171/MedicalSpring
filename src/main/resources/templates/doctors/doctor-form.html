@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+    <p class="btn btn-info btn-sm mb-3 mt-3">Wypełnij, aby dodać nowego lekarza</p>
+
+
+    <form action="#" th:action="@{/doctors/addNewDoctor}" th:object="${doctor}" method="POST">
+        <div class="container">
+
+
+<!--            for UPDATE -->
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-4">
+                <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')}? 'form-control  col-5 is-invalid' : 'form-control col-5'" placeholder="Imię"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+            </div>
+
+            <div class="mb-4">
+                <input type="text" th:field="*{surname}" th:class="${#fields.hasErrors('surname')}? 'form-control col-5 is-invalid' : 'form-control col-5'" placeholder="Nazwisko" />
+                <mark class="error-sign small" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></mark>
+            </div>
+            <div class="mb-4">
+                <input type="text" th:field="*{workPhoneNumber}" th:class="${#fields.hasErrors('workPhoneNumber')}? 'form-control col-5 is-invalid' : 'form-control col-5'" placeholder="Numer telefonu służbowego"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('workPhoneNumber')}" th:errors="*{workPhoneNumber}"></mark>
+            </div>
+            <div class="mb-4">
+                <input type="text" th:field="*{mobilePhoneNumber}" th:class="${#fields.hasErrors('mobilePhoneNumber')}? 'form-control col-5 is-invalid' : 'form-control col-5'" placeholder="Numer telefonu komórkowego"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('mobilePhoneNumber')}" th:errors="*{mobilePhoneNumber}"></mark>
+            </div>
+            <div class="mb-4">
+                <input type="text" th:field="*{comments}" th:class="${#fields.hasErrors('comments')}? 'form-control col-5 is-invalid' : 'form-control col-5'" placeholder="Komentarz"/>
+                <mark class="error-sign small" th:if="${#fields.hasErrors('comments')}" th:errors="*{comments}"></mark>
+            </div>
+
+            <input type="submit" class="btn btn-outline-primary col-4" value="ZAPISZ">
+            <input type="reset" class="btn btn-outline-secondary col-1">
+        </div>
+
+    </form>
+
+    <a class="btn btn-outline-dark mb-3 mt-3" th:href="@{/doctors}">Powrót do listy lekarzy</a>
+
+</div>
+
+</body>
+</html>

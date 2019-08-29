@@ -1,0 +1,69 @@
+
+body {
+    margin: 0%;
+}
+.bg{
+    background-image: url("https://www.ccmrecruitment.com/wp-content/uploads/2017/09/nurse-managers-cover.jpg") ;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-attachment: fixed;
+    background-position: center top;
+    background-size: cover;
+}
+
+.card{
+    width:40%;
+    margin-left: 55%;
+    background-color: #618fd6;
+    font-family: 'Russo One', sans-serif;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.container{
+    padding-top: 7.5%;
+}
+.card-block{
+    background-color: #618fd6;
+}
+.card-header{
+    background-color: #618fd6 !important;
+}
+.form-control{
+    background-color: lightsteelblue !important;
+}
+.form-group{
+    font-size: 125%;
+    letter-spacing: 2px;
+}
+
+.form-group:first-child{
+    padding-top: 5%;
+}
+
+.btn{
+    color: whitesmoke !important;
+    border: 1px solid whitesmoke !important;
+}
+
+.btn:hover{
+    background-color: #47679b !important;
+    transition: background 1s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

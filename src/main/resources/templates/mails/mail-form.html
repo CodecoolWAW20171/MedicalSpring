@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Medical Spring</title>
+    <meta charset="UTF-8">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" th:src="@{/js/mailFormValidator.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container" th:object="${patient}">
+    <p th:text="${patient.name}"></p>
+    <p th:text="${patient.surname}"></p>
+    <p th:text="${patient.mail}"></p>
+
+    <form action="#" th:action="@{/mails/send-mail(patientId=${patient.patientId})}" th:object="${mailDto}" method="POST">
+
+        <div class="input-table">
+            <div class="mb-3">
+                <label>
+                    <input th:id="subject" th:field="*{subject}"  th:class="form-control" type="text" placeholder="Temat..."/>
+                </label>
+            </div>
+            <div class="mb-3">
+                <input th:id="message" th:field="*{message}" th:class="form-control" style="height: 15%" type="text" placeholder="Wiadomość..."/>
+            </div>
+        </div>
+
+            <input th:id="sumbitBtn" type="submit" class="btn btn-outline-primary col-4">
+            <input type="reset" class="btn btn-outline-primary col-1">
+
+    </form>
+    <button class="btn btn-outline-primary col-4" >
+        <a th:href="@{/patients}">Powrót</a>
+    </button>
+</div>
+
+
+
+</body>
+
+</html>

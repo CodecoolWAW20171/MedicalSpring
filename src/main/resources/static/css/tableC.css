@@ -1,0 +1,12 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 78vh;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.buttonBackground1 {
+    background-color: lemonchiffon;
+}

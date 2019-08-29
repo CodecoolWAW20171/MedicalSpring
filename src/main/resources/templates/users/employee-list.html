@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--    //<link rel="stylesheet" th:src="@{/css/table.scss}" >-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tableC.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/searchPatient.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .searchTh{
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu" />
+</div>
+<div class="container">
+
+    <!--    Add a button-->
+    <a th:href="@{/employees/showFormForAddEmployee}"
+       class="btn btn-info btn-sm mb-3 mt-3">
+        Dodaj nowego pracownika
+    </a>
+
+    <div class="container">
+
+        <table  id="myTable" class=" fixed_headers table table-striped table-hover table-sm table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <td colspan="13">
+                    <a class="text-right" data-toggle="collapse" data-target="#target2">
+                        Zaawansowane wyszukiwanie ...
+                    </a>
+                </td>
+            </tr>
+            <tr class="text-sm-center">
+                <th>ID</th>
+                <th>PESEL</th>
+                <th>NAZWISKO</th>
+                <th>IMIĘ</th>
+                <th>DATA</th>
+                <th>GMINA</th>
+                <th>KOD</th>
+                <th>MIASTO</th>
+                <th>ULICA</th>
+                <th>DOM</th>
+                <th>NR</th>
+                <th>EDYTUJ</th>
+                <th>USUŃ</th>
+            </tr>
+            <tr id="target2" class="collapse">
+                <th></th>
+                <th><input type="text" style="width: 100%" id="pesel" onkeyup="searchByPesel()" placeholder="pesel" >            </th>
+                <th><input type="text" style="width: 100%" id="surname" onkeyup="searchBySurname()" placeholder="surname" >            </th>
+                <th><input type="text" style="width: 100%" id="name" onkeyup="searchByName()" placeholder="name" >            </th>
+                <th><input type="text" style="width: 100%" id="birthday" onkeyup="birthday()" placeholder="birthday" >            </th>
+                <th><input type="text" style="width: 100%" id="comunnity" onkeyup="comunnity()" placeholder="comunnity" >            </th>
+                <th><input type="text" style="width: 100%" id="zip" onkeyup="zip()" placeholder="zip" >            </th>
+                <th><input type="text" style="width: 100%" id="city" onkeyup="city()" placeholder="city" >            </th>
+                <th><input type="text" style="width: 100%" id="street" onkeyup="street()" placeholder="street" >            </th>
+                <th><input type="text" style="width: 100%" id="hNumber" onkeyup="hNumber()" placeholder="..." >            </th>
+                <th><input type="text" style="width: 100%" id="aNumber" onkeyup="aNumber()" placeholder="..." >            </th>
+                <th>-</th>
+                <th>-</th>
+            </tr>
+            </thead>
+
+            <tbody class="text-right">
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}" ></td>
+                <td th:text="${employee.pesel}" ></td>
+                <td th:text="${employee.surname}" ></td>
+                <td th:text="${employee.name}" ></td>
+                <td th:text="${employee.birthday}" ></td>
+                <td th:text="${employee.community}" ></td>
+                <td th:text="${employee.zipCode}" ></td>
+                <td th:text="${employee.city}" ></td>
+                <td th:text="${employee.street}" ></td>
+                <td th:text="${employee.houseNumber}" ></td>
+                <td th:text="${employee.apartmentNumber}" ></td>
+
+                <td>
+                    <a th:href="@{/employees/showFormForEditEmployee(employeeIdToEdit=${employee.id})}"
+                       class="btn-info btn-xs">Update</a>
+                </td>
+                <td>
+                    <a th:href="@{/employees/delete(employeeIdToDelete=${employee.id})}"
+                       class="btn-danger btn-xs"
+                       onclick="if(!(confirm('Czy jesteś pewien?')))return false">Delete</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

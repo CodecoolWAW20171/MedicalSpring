@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Spring</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- JS and JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/theSameContent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/peselValidation.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body onload="ParsePesel();">
+
+<div class="mt-10">
+    <header id="header" class="alt" th:include="menu :: title-menu"/>
+</div>
+<div class="container">
+    <p class="btn btn-info btn-sm mb-3 mt-3">Wypełnij aby dodać nowego pacjenta</p>
+
+    <form action="#" th:action="@{/patients/addNewPatient}" th:object="${patient}" method="POST">
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-md-5">
+
+                    <h3>DANE:</h3>
+                    <!--            for UPDATE -->
+                    <input type="hidden" th:field="*{patientId}"/>
+
+                    <div class="mb-3">
+                        <input id="pesel" onkeyup="ParsePesel();" type="text" th:field="*{pesel}"  th:class="${#fields.hasErrors('pesel')}? 'form-control   is-invalid' : 'form-control '"  placeholder="Pesel"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('pesel')}"                            th:errors="*{pesel}"></mark>
+                    </div>
+<!--                    <input type="date" th:value="*{date}" th:field="*{date}" />-->
+
+                    <div class="mb-3">
+                        <input  id="birthday" type="date" th:field="*{birthday}" th:class="${#fields.hasErrors('birthday')}? 'form-control  is-invalid' : 'form-control'"   placeholder="Data urodzenia"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('birthday')}"
+                              th:errors="*{birthday}"></mark>
+                    </div>
+
+                    <div class="mb-3">
+                        <input readonly id="sex" type="text" th:field="*{sex}"  th:class="${#fields.hasErrors('sex')}? 'form-control  is-invalid' : 'form-control'"   placeholder="Płeć"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"></mark>
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                        <input type="text" th:field="*{surname}"    th:class="${#fields.hasErrors('surname')}? 'form-control is-invalid' : 'form-control'" placeholder="Nazwisko"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('surname')}"
+                              th:errors="*{surname}"></mark>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" th:field="*{name}"  th:class="${#fields.hasErrors('name')}? 'form-control is-invalid' : 'form-control'"   placeholder="Imię"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+                    </div>
+
+
+
+                    <h3>ADRES:</h3>
+                    <div class="mb-3">
+                        <input type="text" th:field="*{community}"   th:class="${#fields.hasErrors('community')}? 'form-control is-invalid' : 'form-control'"  placeholder="Gmina"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('community')}"
+                              th:errors="*{community}"></mark>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" th:field="*{zipCode}" th:class="${#fields.hasErrors('zipCode')}? 'form-control is-invalid' : 'form-control'"  placeholder="Kod pocztowy"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('zipCode')}"
+                              th:errors="*{zipCode}"></mark>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" th:field="*{city}" th:class="${#fields.hasErrors('city')}? 'form-control  is-invalid' : 'form-control'"   placeholder="Miasto"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></mark>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" th:field="*{street}" th:class="${#fields.hasErrors('street')}? 'form-control is-invalid' : 'form-control'"  placeholder="Ulica"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('street')}"
+                              th:errors="*{street}"></mark>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" th:field="*{houseNumber}"  th:class="${#fields.hasErrors('houseNumber')}? 'form-control is-invalid' : 'form-control'"  placeholder="Numer domu"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('houseNumber')}"
+                              th:errors="*{houseNumber}"></mark>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" th:field="*{apartmentNumber}"
+                               th:class="${#fields.hasErrors('apartmentNumber')}? 'form-control is-invalid' : 'form-control'" placeholder="Numer mieszkania"/>
+                        <mark class="error-sign small" th:if="${#fields.hasErrors('apartmentNumber')}"
+                              th:errors="*{apartmentNumber}"></mark>
+                    </div>
+                </div>
+
+
+                <div class="col-md-7">
+
+                    <h3>LEKI:</h3>
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th style="width: 20px" class="align-middle text-center" th:text="LP">Row</th>
+                                <th class="align-middle" th:text="LEK"></th>
+                                <th style="width: 170px;" class="text-center">
+                                    <button type="submit" name="addRow" value="addRow"
+                                            class="btn btn-outline-info btn-block">Dodaj lek
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="medicine,medicineStat : *{patientMedicines}">
+                                <td class="align-middle text-center" th:text="${medicineStat.count}">1</td>
+                                <td>
+                                    <select class="diffrentMedicine form-control" onchange="checkMedicine()" id="selectMedicine"
+                                            th:field="*{patientMedicines[__${medicineStat.index}__]}" th:required="false">
+                                        <option value="" th:disabled="false" th:selected="true">
+                                            Wybierz lek >> </option>
+                                        <option th:each="medicineToAdd : ${allMedicines}"
+                                                th:value="${medicineToAdd.getMedicineId()}"
+                                                th:text="${medicineToAdd.getMedicineName()}">Thymus Thymi
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <button type="submit" name="removeRow" th:value="${medicineStat.index}"
+                                            class="btn btn-outline-danger">Usuń lek
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br><h3>CHOROBY:</h3>
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th style="width: 20px" class="align-middle text-center" th:text="LP">Row</th>
+                                <th class="align-middle" th:text="Choroba"></th>
+                                <th style="width: 170px;" class="text-center">
+                                    <button type="submit" name="addDiseaseRow" value="addDiseaseRow"
+                                            class="btn btn-outline-info btn-block">Dodaj chorobę
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="disease,diseaseStat : *{patientDiseases}">
+                                <td class="align-middle text-center" th:text="${diseaseStat.count}">1</td>
+                                <td>
+                                    <select class="diffrentDisease form-control" onchange="checkContent()" id="selectDisease"
+                                            th:field="*{patientDiseases[__${diseaseStat.index}__]}" th:required="false">
+                                        <option value="" th:disabled="false" th:selected="true">
+                                            Wybierz chorobę >> </option>
+                                        <option th:each="diseaseToAdd : ${allDiseases}"
+                                                th:value="${diseaseToAdd.getDiseaseId()}"
+                                                th:text="${diseaseToAdd.getDiseaseName()}">Thymus Thymi
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <button type="submit" name="removeDiseaseRow" th:value="${diseaseStat.index}"
+                                            class="btn btn-outline-danger">Usuń chorobę
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="selectdoctor">Wybierz Lekarza prowadzącego</label>
+                                        <select class="form-control" id="selectdoctor" th:field="*{doctorId}">
+                                            <option th:each="doctor : ${doctors}" th:value="${doctor.getId()}" th:text="${doctor.getName() + ' ' + doctor.getSurname()}"></option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <input type="submit" class="btn btn-outline-primary col-4" value="ZAPISZ">
+                <input type="reset" class="btn btn-outline-secondary col-1">
+            </div>
+        </div>
+
+    </form>
+    <a class="btn btn-outline-dark mb-3 mt-3" th:href="@{/patients}">Powrót do listy</a>
+
+</div>
+
+
+</body>
+</html>
+
+<!--&lt;!&ndash;&ndash;&gt;-->
+<!--<div>-->
+<!--    <label th:text="ROWS">Rows</label>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th th:text="cda1">Row</th>-->
+<!--            <th th:text="cda2">Variety</th>-->
+<!--            <th th:text="cda3">Seeds per cell</th>-->
+<!--            &lt;!&ndash;                        <th>&ndash;&gt;-->
+<!--            &lt;!&ndash;                            <button type="submit" name="addRow" th:text="Add row">Add row</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </th>&ndash;&gt;-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="medicine,medicineStat : *{patientMedicines}">-->
+<!--            <td th:text="${medicineStat.count}">1</td>-->
+<!--            <td>-->
+<!--                <label for="selectMedicine">Select medicine</label>-->
+<!--                <select class="form-control" id="selectMedicine" th:field="*{patientMedicines[__${medicineStat.index}__].medicineName}">-->
+<!--                    <option th:each="medicineToAdd : ${allMedicines}" th:value="${medicineToAdd.getMedicineId()}" th:text="${medicineToAdd.getMedicineName()}">Thymus Thymi</option>-->
+<!--                </select>-->
+<!--            </td>-->
+<!--            &lt;!&ndash;                        <td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                            <input type="text" th:field="*{patientMedicines[__${medicineStat.index}__].seedsPerCell}" th:errorclass="fieldError" />&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        <td>&ndash;&gt;-->
+<!--            &lt;!&ndash;                            <button type="submit" name="removeRow" th:value="${medicineStat.index}" th:text="#{seedstarter.row.remove}">Remove row</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
