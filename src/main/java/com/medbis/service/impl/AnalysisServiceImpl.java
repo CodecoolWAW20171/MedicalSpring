@@ -2,29 +2,27 @@ package com.medbis.service.impl;
 
 import com.medbis.entity.Employee;
 import com.medbis.entity.User;
+import com.medbis.entity.Visit;
 import com.medbis.repository.VisitRepository;
 import com.medbis.service.interfaces.AnalysisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 
     private VisitRepository visitRepository;
+    private TreatmentServiceImpl treatmentService;
+    private EmployeeServiceImpl employeeService;
 
-
-    @Autowired
-    public AnalysisServiceImpl(VisitRepository visitRepository) {
+    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, EmployeeServiceImpl employeeService) {
         this.visitRepository = visitRepository;
+        this.treatmentService = treatmentService;
+        this.employeeService = employeeService;
     }
-
 
     @Override
     public int countVisitsByEmployeeIdAndVisitStatus(int id, boolean visitStatus) {
@@ -32,10 +30,8 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
     @Override
-   public int getSumOfVisits(Map<Integer, Integer> visitsPlannedByEmployees) {
-       int sumOfPlannedVisits = 0;
-       for (Integer num : visitsPlannedByEmployees.values())  sumOfPlannedVisits += num;
-       return sumOfPlannedVisits;
+   public int getAmountOfVisitsByEmployee(int id, boolean visitsStatus  ) {
+       return countVisitsByEmployeeIdAndVisitStatus(id, visitsStatus);
 
    }
 
@@ -74,9 +70,37 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     }
 
+    @Override
+    public int countStats(int id) {
+        int amountOfVisisDoneByEmployee;
+        try {
+            amountOfVisisDoneByEmployee = treatmentService.countStats(id);
+        }
+        catch (NullPointerException err){
+            amountOfVisisDoneByEmployee = 0;
+        }
+        return amountOfVisisDoneByEmployee;
+    }
+
+
     private static boolean isLeapYear(int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365;
     }
+
+
+    private Map<Integer, List<Visit>> getVisitDoneForEmployeeMap(){
+        Map<Integer, List<Visit>> visitsDoneByEmployee = new HashMap<>();
+        employeeService.findAll().forEach(employee -> {
+            Employee em = (Employee) employee;
+            int employeeId = em.getId();
+            visitsDoneByEmployee.put(employeeId, visitRepository.findByVisitStatusIsTrueAndEmployeeId(employeeId));
+        });
+    return visitsDoneByEmployee;
+    }
+
+
+
+
 }

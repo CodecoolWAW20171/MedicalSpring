@@ -1,6 +1,8 @@
 package com.medbis.controller;
 
-import com.medbis.entity.*;
+import com.medbis.entity.Patient;
+import com.medbis.entity.Visit;
+import com.medbis.entity.VisitTreatment;
 import com.medbis.mail.MailService;
 import com.medbis.pdf.PdfGenerator;
 import com.medbis.security.UserPrincipal;
@@ -19,9 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class VisitController {
@@ -89,10 +88,10 @@ public class VisitController {
         int initialAmountOfPlannedVisit = visitService.findPlannedVisits().size();
         for(VisitTreatment visitTreatment: theVisit.getVisitTreatments()){
             visitTreatment.setVisit(theVisit);
-            System.out.println("Saving... "  + Instant.now());
+
         }
         visitService.save(theVisit);
-        System.out.println("Saved... "  + Instant.now());
+
         if (visitService.checkIfNewVisitAdded(initialAmountOfPlannedVisit)) {
             mailService.setVisit(theVisit);
             mailService.setAction("addVisit");
@@ -103,16 +102,16 @@ public class VisitController {
             mailService.setVisit(theVisit);
             mailService.setAction("editVisit");
             mailService.run();
-            System.out.println("Send email... " + Instant.now() );
+
             mailService.sendMail();
             visitService.save(theVisit);
         }
         if(action.equals("hold")){
-            System.out.println("Holding... "  + Instant.now());
+
             theVisit.setVisitStatus(true);
             visitService.save(theVisit);
         }
-        System.out.println("rendering............ "  + Instant.now());
+
         return "redirect:/visits";
     }
 

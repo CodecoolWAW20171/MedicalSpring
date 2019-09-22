@@ -16,9 +16,16 @@ public interface AnalysisService {
 
     int countVisitsMonthlyByEmployeeIdAndVisitStatus(int month, int employeeId, boolean visitStatus);
 
-    int getSumOfVisits(Map<Integer, Integer> visitsPlannedByEmployees);
+    int getAmountOfVisitsByEmployee(int id, boolean visitsStatus);
 
     Map<Integer, Integer> createEmployeesResultMap(boolean visitsStatus, List<? extends User> employees);
 
     Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitsStatus, List<? extends User> employees, int month);
+
+/*
+  musze wywoolywac tua metode poprzez service polaczony z repository tzn = ta sama nazwa ;
+*/
+
+    int countStats(int id);
+
 }

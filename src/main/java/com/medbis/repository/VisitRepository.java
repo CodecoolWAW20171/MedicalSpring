@@ -22,15 +22,23 @@ public interface VisitRepository extends JpaRepository<Visit, Integer> {
     int countVisitsByVisitDateBetween(LocalDate startDate, LocalDate endDate);
 
 
+    /*
+    move to analysis package
+*/
     int countVisitsByVisitDateBetweenAndVisitStatusAndEmployeeId(LocalDate startDate, LocalDate endDate, Boolean status, int employeeId);
 
+    /*
+    move to analysis package
+*/
     int countVisitsByEmployeeIdAndVisitStatus(int id, boolean visitStatus);
 
 
     List<Visit> findByVisitEmployeeId(int id);
 
+
     List<Visit> findByVisitStatusIsTrueAndEmployeeId(int id);
 
     List<Visit> findByVisitStatusIsFalseAndEmployeeId(int id);
+
 
 }

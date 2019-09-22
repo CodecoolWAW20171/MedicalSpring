@@ -47,4 +47,10 @@ public class TreatmentServiceImpl implements TreatmentService {
     public List<Treatment> findAllByCategoryId(int categoryId) {
         return treatmentRepository.findAllByCategoryId(categoryId);
     }
+
+    @Override
+    public Integer countStats(int id) {
+        return treatmentRepository.countByEmployee(id);
+    }
+
 }
