@@ -3,7 +3,10 @@ package com.medbis.service.interfaces;
 import com.medbis.entity.Treatment;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public interface TreatmentService {
 
@@ -19,4 +22,7 @@ List<Treatment> findAllByCategoryId(int categoryId);
 
 Integer countStats(int id);
 
+Integer countByEmployeeByMonth(int id, LocalDate firstDayOfMonthDate, LocalDate lastDayOfMonthDate);
+
+    Map<Integer, Integer> getAmountSingleTreatmentDoneEmployee();
 }

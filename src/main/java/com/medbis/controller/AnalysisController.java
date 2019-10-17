@@ -1,7 +1,6 @@
 package com.medbis.controller;
 
-import com.medbis.entity.Employee;
-import com.medbis.entity.User;
+import com.medbis.entity.*;
 import com.medbis.service.interfaces.AnalysisService;
 import com.medbis.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,9 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class AnalysisController {

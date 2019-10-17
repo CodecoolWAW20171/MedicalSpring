@@ -41,4 +41,8 @@ public interface VisitRepository extends JpaRepository<Visit, Integer> {
     List<Visit> findByVisitStatusIsFalseAndEmployeeId(int id);
 
 
+    int countVisitsByVisitStatus(boolean visitStatus);
+
+
+
 }
