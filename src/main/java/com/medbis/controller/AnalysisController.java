@@ -47,7 +47,6 @@ public class AnalysisController {
             treatmentsByEmployees.put(i, analysisService.countStats(currentId));
         }
 
-
         analysisService.generateMap();
 
         analysisService.countSingleTreatmentPerEmployee(visitTreatments);
@@ -98,7 +97,6 @@ public class AnalysisController {
         catch (NullPointerException err){
            err.printStackTrace();
         }
-
 
         model.addAttribute("totalTreatmentsDone", analysisService.sortTreatmentsCounterMap(analysisService.createTreatmentsCounterMap(treatments)));
         model.addAttribute("sumOfPlannedVisits", analysisService.sumVisitsPlanned());

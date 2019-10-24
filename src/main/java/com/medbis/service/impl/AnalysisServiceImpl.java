@@ -3,6 +3,7 @@ package com.medbis.service.impl;
 import com.medbis.entity.*;
 import com.medbis.repository.VisitRepository;
 import com.medbis.service.interfaces.AnalysisService;
+import com.medbis.statistics.VisitsCounter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,14 +19,16 @@ public class AnalysisServiceImpl implements AnalysisService {
     private VisitTreatmentServiceImpl visitTreatmentService;
     private VisitServiceImpl visitService;
     private EmployeeServiceImpl employeeService;
+    private VisitsCounter visitsCounter;
 
-    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, CategoryServiceImpl categoryService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService) {
+    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, CategoryServiceImpl categoryService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService, VisitsCounter visitsCounter) {
         this.visitRepository = visitRepository;
         this.treatmentService = treatmentService;
         this.categoryService = categoryService;
         this.visitTreatmentService = visitTreatmentService;
         this.visitService = visitService;
         this.employeeService = employeeService;
+        this.visitsCounter = visitsCounter;
     }
 
     @Override
@@ -44,6 +47,8 @@ public class AnalysisServiceImpl implements AnalysisService {
         return countVisitsMonthlyByEmployeeIdAndVisitStatus(month, id, visitsStatus);
     }
 
+
+
 /*
     private int countVisitsByEmployeeIdAndVisitStatus(int id, boolean visitsStatus, int month) {
         visitRepository.countVisitsByVisitDateBetweenAndVisitStatusAndEmployeeId(firstDayOfMonth, lastDayOfMonth, visitStatus, employeeId);
@@ -53,17 +58,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public int countVisitsMonthlyByEmployeeIdAndVisitStatus(int month, int employeeId, boolean visitStatus) {
-        LocalDate firstDayOfMonth, lastDayOfMonth;
-
-        /*
-        todo: handle form input for year to unhardcode this
-        */
-        firstDayOfMonth = LocalDate.of(2019, month, 1);
-        lastDayOfMonth = LocalDate.of(2019, month, Month.of(month).length(isLeapYear(2019)));
-        return visitRepository.countVisitsByVisitDateBetweenAndVisitStatusAndEmployeeId(firstDayOfMonth, lastDayOfMonth, visitStatus, employeeId);
+        return visitsCounter.countVisitsMonthlyByEmployeeIdAndVisitStatus(month, employeeId, visitStatus);
     }
 
-    private static boolean isLeapYear(int year) {
+
+    public static boolean isLeapYear(int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365;
@@ -71,6 +70,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month) {
+        return visitsCounter.createEmployeesResultMapByMonth(visitStatus, employees, month);
+
+        /*
         Map<Integer, Integer> monthlyResultMap = new LinkedHashMap<>();
         int iterMapKey = 0;
 
@@ -80,6 +82,7 @@ public class AnalysisServiceImpl implements AnalysisService {
             iterMapKey++;
         }
         return monthlyResultMap;
+*/
 
     }
 
@@ -133,12 +136,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public int sumVisitsDone() {
-        return this.visitRepository.countVisitsByVisitStatus(true);
+        return this.visitsCounter.countVisitsByVisitStatus(true);
     }
 
     @Override
     public int sumVisitsPlanned() {
-        return this.visitRepository.countVisitsByVisitStatus(false);
+        return this.visitsCounter.countVisitsByVisitStatus(false);
     }
 
 /*    @Override
