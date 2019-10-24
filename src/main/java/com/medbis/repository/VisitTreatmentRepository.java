@@ -4,6 +4,7 @@ import com.medbis.entity.VisitTreatment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -23,6 +24,10 @@ public interface VisitTreatmentRepository extends JpaRepository<VisitTreatment, 
     int totalService(int id);
 
 
+    @Query(value = "SELECT * FROM visits_services vs\n" +
+            "JOIN visits v on vs.visit_id = v.visit_id\n" +
+            "where v.date BETWEEN :startDate AND :endDate", nativeQuery = true)
+    List<VisitTreatment> takeVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate);
 
 
 

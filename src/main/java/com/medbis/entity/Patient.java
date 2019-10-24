@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -61,6 +62,16 @@ public class Patient extends User {
     @JoinColumn(name="doctor_id", referencedColumnName = "doctor_id")
     private int doctorId;
 
+
+    @Override
+    public Integer getResultOfTheTreatment(Treatment treatment) {
+        return null;
+    }
+
+    @Override
+    public Map<Treatment, Integer> getCountTreat() {
+        return null;
+    }
 
     @Override
     public String toString() {

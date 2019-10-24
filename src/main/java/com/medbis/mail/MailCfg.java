@@ -21,8 +21,8 @@ public class MailCfg {
 
 
     public MailCfg(){
-        this.username = "office.medicalspring@gmail.com";
-        this.password = "kbks2019";
+            this.username = "office.medicalspring@gmail.com";
+            this.password = "kbks2019";
         this.port = "587";
         this.host = "smtp.gmail.com";
 

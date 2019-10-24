@@ -4,8 +4,10 @@ package com.medbis.service.interfaces;
 import com.medbis.entity.Category;
 import com.medbis.entity.Treatment;
 import com.medbis.entity.User;
+import com.medbis.entity.VisitTreatment;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,7 @@ public interface AnalysisService {
 
     Map<Integer, Integer> countByEmployeeByMonth(List<? extends User> users, int month);
 
-  Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitsStatus, List<? extends User> employees, int month);
+  Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month);
 
 
 
@@ -50,12 +52,19 @@ public interface AnalysisService {
 
 
 
- //void countSingleTreatmentPerEmployee(List<? extends User> employees);
+ void countSingleTreatmentPerEmployee(List<VisitTreatment> visitTreatments);
 
-   //Map<Treatment, Integer> generateMap();
+ void generateMap();
 
    int countVisitTreatmentsDone();
 
+
+    List<VisitTreatment> getAllVisitTreatment();
+
+
+    List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate);
+
+    LocalDate getLastDayOfMonth(int month);
 }
 
 

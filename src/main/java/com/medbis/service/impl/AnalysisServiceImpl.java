@@ -16,12 +16,16 @@ public class AnalysisServiceImpl implements AnalysisService {
     private TreatmentServiceImpl treatmentService;
     private CategoryServiceImpl categoryService;
     private VisitTreatmentServiceImpl visitTreatmentService;
+    private VisitServiceImpl visitService;
+    private EmployeeServiceImpl employeeService;
 
-    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, CategoryServiceImpl categoryService, VisitTreatmentServiceImpl visitTreatmentService) {
+    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, CategoryServiceImpl categoryService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService) {
         this.visitRepository = visitRepository;
         this.treatmentService = treatmentService;
         this.categoryService = categoryService;
         this.visitTreatmentService = visitTreatmentService;
+        this.visitService = visitService;
+        this.employeeService = employeeService;
     }
 
     @Override
@@ -50,6 +54,10 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     public int countVisitsMonthlyByEmployeeIdAndVisitStatus(int month, int employeeId, boolean visitStatus) {
         LocalDate firstDayOfMonth, lastDayOfMonth;
+
+        /*
+        todo: handle form input for year to unhardcode this
+        */
         firstDayOfMonth = LocalDate.of(2019, month, 1);
         lastDayOfMonth = LocalDate.of(2019, month, Month.of(month).length(isLeapYear(2019)));
         return visitRepository.countVisitsByVisitDateBetweenAndVisitStatusAndEmployeeId(firstDayOfMonth, lastDayOfMonth, visitStatus, employeeId);
@@ -62,13 +70,13 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
     @Override
-    public Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitsStatus, List<? extends User> employees, int month) {
+    public Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month) {
         Map<Integer, Integer> monthlyResultMap = new LinkedHashMap<>();
         int iterMapKey = 0;
 
         for (User employee : employees) {
             Employee emp = (Employee) employee;
-            monthlyResultMap.put(iterMapKey, countVisitsMonthlyByEmployeeIdAndVisitStatus(month, emp.getId(), visitsStatus));
+            monthlyResultMap.put(iterMapKey, countVisitsMonthlyByEmployeeIdAndVisitStatus(month, emp.getId(), visitStatus));
             iterMapKey++;
         }
         return monthlyResultMap;
@@ -97,22 +105,23 @@ public class AnalysisServiceImpl implements AnalysisService {
         Map<Integer, Integer> treatmentsByEmployees = new LinkedHashMap<>();
         Employee employee;
 
-        LocalDate firstDayOfMonth, lastDayOfMonth;
-        firstDayOfMonth = LocalDate.of(2019, month, 1);
-        lastDayOfMonth = LocalDate.of(2019, month, Month.of(month).length(isLeapYear(2019)));
+        LocalDate lastDayOfMonth = getLastDayOfMonth(month);
 
-        int result = 0;
+        int result;
         for (int i = 0; i < users.size(); i++) {
-            employee = (Employee) users.get(i);
             try {
-                result = treatmentService.countByEmployeeByMonth(employee.getId(), firstDayOfMonth, lastDayOfMonth);
+                employee = (Employee) users.get(i);
+                result = treatmentService.countByEmployeeByMonth(employee.getId(), LocalDate.of(2019, month, 1), lastDayOfMonth);
             } catch (NullPointerException err) {
                 result = 0;
             }
             treatmentsByEmployees.put(i, result);
         }
-
         return treatmentsByEmployees;
+    }
+
+   public LocalDate getLastDayOfMonth(int month) {
+        return LocalDate.of(2019, month, Month.of(month).length(isLeapYear(2019)));
     }
 
 
@@ -120,27 +129,6 @@ public class AnalysisServiceImpl implements AnalysisService {
     public List<Category> getCategories() {
         return categoryService.findAll();
     }
-/*
-  @Override
-  public Map<Integer, List<Treatment>> getTreatmentsByCategoryIdMap() {
-        Map<Integer, List<Treatment>> treatmentsByCategoryId = new HashMap<>();
-        List<Category> categories = categoryService.findAll();
-        List<Treatment> treatments = treatmentService.findAll();
-
-        List<Treatment> tById = new ArrayList<>();
-
-        for (Treatment treatment : treatments) {
-            for (Category category : categories) {
-                treatmentsByCategoryId.put(category.getCategoryId(), tById);
-                if (category.getCategoryId() == treatment.getCategoryId()) {
-                    tById.add(treatment);
-                    treatmentsByCategoryId.put(category.getCategoryId(), tById);
-                }
-            }
-        }
-        return treatmentsByCategoryId;
-    }*/
-
 
 
     @Override
@@ -196,45 +184,54 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
 
-/*  @Override
-    public void countSingleTreatmentPerEmployee(List<? extends User> employees) {
-        int result;
-        List<VisitTreatment> visitTreatments = visitTreatmentService.findAll();
-        for (User emp : employees) {
-            Employee employee = (Employee) emp;
-            employee.setCountTreat(generateMap());
-            for (VisitTreatment visitTreatment : visitTreatments) {
-                Visit visit = visitTreatment.getVisit();
-                result = 0;
-              if (visit.getVisitStatus()) {
-                    if (visit.getEmployee().equals(employee)) {
-                        List<VisitTreatment> vs = visit.getVisitTreatments();
-                            for (VisitTreatment v : vs){
-                                if (v.equals(visitTreatment)){
-                                    result+=1;
-                                }
-                            }
-                        employee.addTreatmentsCount(visitTreatment.getTreatment(), result);
-                    }
+    @Override
+    public void countSingleTreatmentPerEmployee(List<VisitTreatment> visitTreatments) {
+        int visitId;
+        Visit visit;
+        Employee emp;
+        Treatment treatment;
+
+        for(VisitTreatment visitTreatment : visitTreatments) {
+            try {
+                visitId = visitTreatment.getPrimaryKey().getVisit().getVisitId();
+                visit = visitService.findById(visitId);
+                emp = (Employee) employeeService.findById(visit.getVisitEmployeeId());
+                treatment = treatmentService.findById(visitTreatment.getTreatment().getTreatmentId());
+                emp.raiseResultOfTreatmentDone(treatment);
                 }
-            }
+              catch (NullPointerException err){
+                //just want to take next elem
+                  continue;
+              }
         }
-    }*/
+    }
 
 
-/*    @Override
-    public Map<Treatment, Integer> generateMap() {
+
+    @Override
+    public void generateMap() {
         List<Treatment> treatments = treatmentService.findAll();
-        Map<Treatment, Integer> treatmentIntegerMap = new HashMap<>();
-        for (Treatment treatment : treatments) {
-            treatmentIntegerMap.put(treatment, 0);
+        List<? extends User> employees = employeeService.findAll();
+        Employee emp;
+        for(User employee : employees){
+            emp = (Employee) employee;
+            emp.generateMapOfTreatments(treatments);
         }
-        return treatmentIntegerMap;
-    }*/
+    }
 
     @Override
     public int countVisitTreatmentsDone() {
         return visitTreatmentService.countVisitTreatmentsDone();
+    }
+
+    @Override
+    public List<VisitTreatment> getAllVisitTreatment() {
+        return visitTreatmentService.findAll();
+    }
+
+    @Override
+    public List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate) {
+        return visitTreatmentService.getVisitTreatmentsDoneInMonth(startDate, endDate);
     }
 
 
