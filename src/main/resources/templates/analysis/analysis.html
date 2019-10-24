@@ -60,9 +60,9 @@
 
     </tr>
 
-    <tr th:each="treatment : ${treatments}">
+    <tr th:each="treatment: ${treatments}">
         <td th:text="${treatment.getName()}"></td>
-        <td class="text-center" th:each="employee, iter : ${employees}" th:text="TODO"></td>
+        <td th:text="${employee.getResultOfTheTreatment(treatment)}" class="text-center" th:each="employee: ${employees}"></td>
         <td class="text-center"  th:text="*{totalTreatmentsDone.get(treatment)}"></td>
     </tr>
         </tbody>
