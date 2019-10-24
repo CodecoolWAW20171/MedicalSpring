@@ -44,7 +44,7 @@ public class AnalysisController {
             currentId = emp.getId();
             visitsDoneByEmployees.put(i, analysisService.getAmountOfVisitsByEmployee(currentId, true));
             visitsPlannedByEmployees.put(i, analysisService.getAmountOfVisitsByEmployee(currentId, false));
-            treatmentsByEmployees.put(i, analysisService.countStats(currentId));
+            treatmentsByEmployees.put(i, analysisService.getTotalTreatmentsDoneEmployee(currentId));
         }
 
         analysisService.generateMap();

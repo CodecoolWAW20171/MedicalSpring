@@ -49,12 +49,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 
 
-/*
-    private int countVisitsByEmployeeIdAndVisitStatus(int id, boolean visitsStatus, int month) {
-        visitRepository.countVisitsByVisitDateBetweenAndVisitStatusAndEmployeeId(firstDayOfMonth, lastDayOfMonth, visitStatus, employeeId);
-    }
-*/
-
 
     @Override
     public int countVisitsMonthlyByEmployeeIdAndVisitStatus(int month, int employeeId, boolean visitStatus) {
@@ -71,31 +65,18 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     public Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month) {
         return visitsCounter.createEmployeesResultMapByMonth(visitStatus, employees, month);
-
-        /*
-        Map<Integer, Integer> monthlyResultMap = new LinkedHashMap<>();
-        int iterMapKey = 0;
-
-        for (User employee : employees) {
-            Employee emp = (Employee) employee;
-            monthlyResultMap.put(iterMapKey, countVisitsMonthlyByEmployeeIdAndVisitStatus(month, emp.getId(), visitStatus));
-            iterMapKey++;
-        }
-        return monthlyResultMap;
-*/
-
     }
 
 
     @Override
-    public int countStats(int id) {
-        int amountOfVisisDoneByEmployee;
+    public int getTotalTreatmentsDoneEmployee(int id) {
+        int totalTreatmentsDoneByEmployee;
         try {
-            amountOfVisisDoneByEmployee = treatmentService.countStats(id);
+            totalTreatmentsDoneByEmployee = treatmentService.getTotalTreatmentsDoneEmployee(id);
         } catch (NullPointerException err) {
-            amountOfVisisDoneByEmployee = 0;
+            totalTreatmentsDoneByEmployee = 0;
         }
-        return amountOfVisisDoneByEmployee;
+        return totalTreatmentsDoneByEmployee;
     }
 
     @Override
@@ -144,10 +125,6 @@ public class AnalysisServiceImpl implements AnalysisService {
         return this.visitsCounter.countVisitsByVisitStatus(false);
     }
 
-/*    @Override
-    public Map<Integer, Integer> getAmountSingleTreatmentDoneEmployee() {
-        return this.treatmentService.getAmountSingleTreatmentDoneEmployee();
-    }*/
 
     @Override
     public int totalService(int id) {

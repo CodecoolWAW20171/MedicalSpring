@@ -20,7 +20,7 @@ void save(Treatment treatment);
 
 List<Treatment> findAllByCategoryId(int categoryId);
 
-Integer countStats(int id);
+Integer getTotalTreatmentsDoneEmployee(int id);
 
 Integer countByEmployeeByMonth(int id, LocalDate firstDayOfMonthDate, LocalDate lastDayOfMonthDate);
 

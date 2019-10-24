@@ -34,7 +34,7 @@ public interface AnalysisService {
 
     List<Category> getCategories();
 
-    int countStats(int id);
+    int getTotalTreatmentsDoneEmployee(int id);
 
     List<Treatment> getTreatments();
 

@@ -51,8 +51,8 @@ public class TreatmentServiceImpl implements TreatmentService {
     }
 
     @Override
-    public Integer countStats(int id) {
-        return treatmentRepository.countByEmployee(id);
+    public Integer getTotalTreatmentsDoneEmployee(int id) {
+        return treatmentRepository.getTotalTreatmentsDoneEmployee(id);
     }
 
     @Override

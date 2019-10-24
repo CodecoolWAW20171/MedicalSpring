@@ -22,7 +22,7 @@ public interface TreatmentRepository extends JpaRepository<Treatment, Integer> {
                     "and visits.status is TRUE "  +
                     "GROUP BY e.employee_id",
             nativeQuery = true)
-  Integer countByEmployee(@Param("id") int id);
+  Integer getTotalTreatmentsDoneEmployee(@Param("id") int id);
 
 @Query(value = "SELECT count(services.service_id), e.employee_id, e.name, e.surname from services\n" +
         "join visits_services vs on services.service_id = vs.service_id\n" +
