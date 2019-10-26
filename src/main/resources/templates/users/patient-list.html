@@ -16,7 +16,8 @@
     <link rel="stylesheet" th:href="@{/MDB/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/tableC.css}" type="text/css"/>
 
-    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<!--    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.20/fh-3.1.6/r-2.2.3/sc-2.0.1/datatables.min.css"/>
 
     <!--    <link rel="stylesheet" type="text/css" th:src="@{/DataTables/DataTables-1.10.20/css/jquery.dataTables.css}"/>-->
     <!--    <link rel="stylesheet" type="text/css" th:src="@{/DataTables/DataTables-1.10.20/css/fixedHeader.dataTables.css}"/>-->
@@ -69,10 +70,9 @@
 
                     </div>
 
-
                     <div class="card mt-2">
 
-                        <table cellspacing="0" class="display" id="tablepage" width="100%">
+                        <table cellspacing="0" class="display nowrap" id="tablepage" width="100%">
                             <thead>
                             <tr>
                                 <th class="pl-1 pr-0 text-center">ID</th>
@@ -94,9 +94,9 @@
                                                                 style="font-size: 1em; color: lightseagreen;"></i></th>
                                 <th class="px-1 text-center"><i class="fas fa-user-edit"
                                                                 style="font-size: 1em; color: lightslategray;"></i></th>
-                                <th class="px-1 text-center"><i class="fas fa-trash-alt"
-                                                                style="font-size: 1em; color: black;"></i>
-                                </th>
+<!--                                <th class="px-1 text-center"><i class="fas fa-trash-alt"-->
+<!--                                                                style="font-size: 1em; color: black;"></i>-->
+<!--                                </th>-->
 
                             </tr>
                             </thead>
@@ -192,11 +192,11 @@
                         <!--                            </td>-->
 
                         <!--                            <td class="lessColumn text-center text-nowrap paddingClass">-->
-                        <!--                                <a onclick="if(!(confirm('Czy jesteś pewien?')))return false"-->
-                        <!--                                   th:href="@{/patients/delete(patientIdToDelete=${patient.patientId})}">-->
-                        <!--                                        <span style="font-size: 1em; color: firebrick;">-->
-                        <!--                                            <i class="fas fa-trash-alt"></i>  </span>-->
-                        <!--                                </a>-->
+<!--                                                        <a onclick="if(!(confirm('Czy jesteś pewien?')))return false"-->
+<!--                                                           th:href="@{/patients/delete(patientIdToDelete=${patient.patientId})}">-->
+<!--                                                                <span style="font-size: 1em; color: firebrick;">-->
+<!--                                                                    <i class="fas fa-trash-alt"></i>  </span>-->
+<!--                                                        </a>-->
                         <!--                            </td>-->
 
                         <!--                        </tr>-->
@@ -221,7 +221,8 @@
 
 <!-- SCRIPTS -->
 <!-- JQuery -->
-<script defer th:src="@{/MDB/js/jquery-3.4.1.min.js}" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.20/fh-3.1.6/r-2.2.3/sc-2.0.1/datatables.min.js"></script>
+<!--<script defer th:src="@{/MDB/js/jquery-3.4.1.min.js}" type="text/javascript"></script>-->
 <!-- Bootstrap tooltips -->
 <script defer th:src="@{/MDB/js/popper.min.js}" type="text/javascript"></script>
 <!-- Bootstrap core JavaScript -->
@@ -234,6 +235,10 @@
 <script charset="utf8" defer src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"
         type="text/javascript"></script>
 <script defer th:src="@{/js/searchPatient.js}" type="text/javascript"></script>
+
+
+
+
 
 
 </body>
