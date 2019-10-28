@@ -21,15 +21,12 @@ public class VisitsCounter {
 
     private VisitRepository visitRepository;
 
-
     public VisitsCounter(VisitRepository visitRepository) {
         this.visitRepository = visitRepository;
     }
 
-
     public int countVisitsMonthlyByEmployeeIdAndVisitStatus(int month, int employeeId, boolean visitStatus) {
         LocalDate firstDayOfMonth, lastDayOfMonth;
-
         /*
         todo: handle form input for year to unhardcode this
         */
@@ -41,7 +38,6 @@ public class VisitsCounter {
     public Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month) {
         Map<Integer, Integer> monthlyResultMap = new LinkedHashMap<>();
         int iterMapKey = 0;
-
         for (User employee : employees) {
             Employee emp = (Employee) employee;
             monthlyResultMap.put(iterMapKey, countVisitsMonthlyByEmployeeIdAndVisitStatus(month, emp.getId(), visitStatus));
@@ -58,6 +54,10 @@ public class VisitsCounter {
         return visitRepository.countVisitsByEmployeeIdAndVisitStatus(id, visitStatus);
     }
 
+
+    public int countVisitsByVisitStatusAndVisitDateBetween( boolean visitStatus ,LocalDate startDate, LocalDate endDate){
+        return visitRepository.countVisitsByVisitStatusAndVisitDateBetween(visitStatus, startDate, endDate);
+    }
 }
 
 

@@ -1,6 +1,9 @@
 package com.medbis.controller;
 
-import com.medbis.entity.*;
+import com.medbis.entity.Employee;
+import com.medbis.entity.Treatment;
+import com.medbis.entity.User;
+import com.medbis.entity.VisitTreatment;
 import com.medbis.service.interfaces.AnalysisService;
 import com.medbis.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,8 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AnalysisController {
@@ -73,34 +77,29 @@ public class AnalysisController {
     public String getStatsByMonth(Model model, @RequestParam("month") int month){
 
         List<? extends User> employees = userService.findAll();
-        LocalDate lastDayOfMonth;
 
         Map<Integer, Integer> visitsPlannedMonthlyByEmployees = analysisService.createEmployeesResultMapByMonth(false, employees, month);
-        Map<Integer, Integer> visitsDoneMonthlyByEmployees = analysisService.createEmployeesResultMapByMonth(false, employees, month);
+        Map<Integer, Integer> visitsDoneMonthlyByEmployees = analysisService.createEmployeesResultMapByMonth(true, employees, month);
         Map<Integer, Integer> treatmentsByEmployees = analysisService.countByEmployeeByMonth(employees, month);
 
         List<Treatment> treatments = analysisService.getTreatments();
 
-        int sumOfTreatmentsDone = 0;
-        for (int i : treatmentsByEmployees.values()) {
-            sumOfTreatmentsDone += i;
-        }
+       int sumOfTreatmentsDone = 0;
 
-
-        lastDayOfMonth = analysisService.getLastDayOfMonth(month);
         analysisService.generateMap();
 
         try {
-            List<VisitTreatment> visitTreatments = analysisService.getVisitTreatmentsDoneInMonth(LocalDate.of(2019, month, 1), lastDayOfMonth);
-            analysisService.countSingleTreatmentPerEmployee(visitTreatments);
+            List<VisitTreatment> visitTreatmentsDoneInMonth = analysisService.getVisitTreatmentsDoneInMonth(month);
+            sumOfTreatmentsDone = visitTreatmentsDoneInMonth.size();
+            analysisService.countSingleTreatmentPerEmployee(visitTreatmentsDoneInMonth);
         }
         catch (NullPointerException err){
            err.printStackTrace();
         }
 
         model.addAttribute("totalTreatmentsDone", analysisService.sortTreatmentsCounterMap(analysisService.createTreatmentsCounterMap(treatments)));
-        model.addAttribute("sumOfPlannedVisits", analysisService.sumVisitsPlanned());
-        model.addAttribute("sumOfDoneVisits", analysisService.sumVisitsDone());
+        model.addAttribute("sumOfPlannedVisits", analysisService.countVisitsByVisitStatusAndVisitDateBetween(false, month));
+        model.addAttribute("sumOfDoneVisits", analysisService.countVisitsByVisitStatusAndVisitDateBetween(true, month));
 
         model.addAttribute("treatmentsByEmployees", treatmentsByEmployees);
         model.addAttribute("treatments", treatments);
@@ -111,9 +110,4 @@ public class AnalysisController {
         model.addAttribute("sumOfTreatmentsByEmployee", sumOfTreatmentsDone);
         return "analysis/analysis";
     }
-
-
-
-
-
 }

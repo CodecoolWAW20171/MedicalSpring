@@ -54,8 +54,7 @@ public class VisitTreatmentServiceImpl implements VisitTreatmentService {
 
     @Override
     public List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate  startDate, LocalDate endDate) {
-         return visitTreatmentRepository.takeVisitTreatmentsDoneInMonth(startDate, endDate);
-
+        return visitTreatmentRepository.takeVisitTreatmentsDoneInMonth(startDate, endDate);
     }
 
 

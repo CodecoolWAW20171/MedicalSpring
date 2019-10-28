@@ -15,20 +15,23 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private VisitRepository visitRepository;
     private TreatmentServiceImpl treatmentService;
-    private CategoryServiceImpl categoryService;
     private VisitTreatmentServiceImpl visitTreatmentService;
     private VisitServiceImpl visitService;
     private EmployeeServiceImpl employeeService;
     private VisitsCounter visitsCounter;
 
-    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, CategoryServiceImpl categoryService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService, VisitsCounter visitsCounter) {
+    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService, VisitsCounter visitsCounter) {
         this.visitRepository = visitRepository;
         this.treatmentService = treatmentService;
-        this.categoryService = categoryService;
         this.visitTreatmentService = visitTreatmentService;
         this.visitService = visitService;
         this.employeeService = employeeService;
         this.visitsCounter = visitsCounter;
+    }
+
+    @Override
+    public int countVisitsByVisitStatusAndVisitDateBetween(boolean visitStatus, int month) {
+        return visitsCounter.countVisitsByVisitStatusAndVisitDateBetween(visitStatus, LocalDate.of(2019, month, 1), getLastDayOfMonth(month));
     }
 
     @Override
@@ -84,6 +87,9 @@ public class AnalysisServiceImpl implements AnalysisService {
         return treatmentService.findAll();
     }
 
+    /*
+    todo: harDcoded year
+    */
 
     public Map<Integer, Integer> countByEmployeeByMonth(List<? extends User> users, int month) {
         Map<Integer, Integer> treatmentsByEmployees = new LinkedHashMap<>();
@@ -109,20 +115,17 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
 
-    @Override
-    public List<Category> getCategories() {
-        return categoryService.findAll();
-    }
+
 
 
     @Override
     public int sumVisitsDone() {
-        return this.visitsCounter.countVisitsByVisitStatus(true);
+        return visitsCounter.countVisitsByVisitStatus(true);
     }
 
     @Override
     public int sumVisitsPlanned() {
-        return this.visitsCounter.countVisitsByVisitStatus(false);
+        return visitsCounter.countVisitsByVisitStatus(false);
     }
 
 
@@ -210,8 +213,8 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
     @Override
-    public List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate) {
-        return visitTreatmentService.getVisitTreatmentsDoneInMonth(startDate, endDate);
+    public List<VisitTreatment> getVisitTreatmentsDoneInMonth(int month) {
+        return visitTreatmentService.getVisitTreatmentsDoneInMonth(LocalDate.of(2019,month,1),getLastDayOfMonth(month));
     }
 
 

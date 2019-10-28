@@ -1,7 +1,6 @@
 package com.medbis.service.interfaces;
 
 
-import com.medbis.entity.Category;
 import com.medbis.entity.Treatment;
 import com.medbis.entity.User;
 import com.medbis.entity.VisitTreatment;
@@ -15,7 +14,7 @@ import java.util.Map;
 @Service
 public interface AnalysisService {
 
-
+    int countVisitsByVisitStatusAndVisitDateBetween(boolean visitStatus, int month);
 
     int countVisitsByEmployeeIdAndVisitStatus(int id, boolean visitStatus);
 
@@ -31,8 +30,6 @@ public interface AnalysisService {
   Map<Integer, Integer> createEmployeesResultMapByMonth(boolean visitStatus, List<? extends User> employees, int month);
 
 
-
-    List<Category> getCategories();
 
     int getTotalTreatmentsDoneEmployee(int id);
 
@@ -62,7 +59,7 @@ public interface AnalysisService {
     List<VisitTreatment> getAllVisitTreatment();
 
 
-    List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate);
+    List<VisitTreatment> getVisitTreatmentsDoneInMonth(int month);
 
     LocalDate getLastDayOfMonth(int month);
 }
