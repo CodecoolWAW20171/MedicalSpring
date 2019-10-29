@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.Month;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class AnalysisController {
         model.addAttribute("employeesVisitsDoneMap", visitsDoneMonthlyByEmployees);
         model.addAttribute("employeesVisitsPlannedMap", visitsPlannedMonthlyByEmployees);
         model.addAttribute("employees", employees);
-        model.addAttribute("month", month);
+        model.addAttribute("month", Month.of(month));
         model.addAttribute("sumOfTreatmentsByEmployee", sumOfTreatmentsDone);
         return "analysis/analysis";
     }

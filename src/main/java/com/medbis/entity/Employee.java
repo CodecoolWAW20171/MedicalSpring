@@ -48,14 +48,14 @@ public class Employee extends User{
 
 
 
-    public void setCountTreat(Map<Treatment, Integer> countTreat) {
-        this.countTreat = countTreat;
+    public void setTreatmentResultMap(Map<Treatment, Integer> treatmentResultMap) {
+        this.treatmentResultMap = treatmentResultMap;
     }
 
     @Override
-    public Map<Treatment, Integer> getCountTreat() {
+    public Map<Treatment, Integer> getTreatmentResultMap() {
         try{
-            return this.countTreat;
+            return this.treatmentResultMap;
         }
         catch (NullPointerException err){
             return new HashMap<>();
@@ -68,7 +68,7 @@ public class Employee extends User{
     @Override
     public Integer getResultOfTheTreatment(Treatment treatment){
         try {
-            return this.getCountTreat().get(treatment);
+            return this.getTreatmentResultMap().get(treatment);
         }
         catch (NullPointerException err){
             return 0;
@@ -78,7 +78,7 @@ public class Employee extends User{
 
 
     @Transient
-    private Map<Treatment, Integer> countTreat;
+    private Map<Treatment, Integer> treatmentResultMap;
 
 
     public Employee(String password, @NotEmpty String login, String permissions) {
@@ -86,7 +86,7 @@ public class Employee extends User{
         this.login = login;
         this.passwordChanged = false;
         this.permissions = permissions;
-        this.countTreat = new HashMap<>();
+        this.treatmentResultMap = new HashMap<>();
     }
 
     public List<String> getPermissionsList() throws NullPointerException {
@@ -137,13 +137,13 @@ public class Employee extends User{
     public void raiseResultOfTreatmentDone(Treatment treatment){
         int result = 0;
         try {
-            result = this.countTreat.get(treatment) + 1;
+            result = this.treatmentResultMap.get(treatment) + 1;
         }
         catch (NullPointerException err){
             result = 1;
         }
         finally {
-            this.countTreat.put(treatment, result);
+            this.treatmentResultMap.put(treatment, result);
         }
 
     }
@@ -153,7 +153,7 @@ public class Employee extends User{
         for (Treatment treatment : treatments) {
             treatmentIntegerMap.put(treatment, 0);
         }
-        setCountTreat(treatmentIntegerMap);
+        setTreatmentResultMap(treatmentIntegerMap);
     }
 
 }

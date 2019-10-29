@@ -31,7 +31,9 @@
         </form>
     </div>
 
+
     <div class="dataTable">
+        <div th:if="${month != null}" th:text="*{month}"></div>
     <table class="table table-hover table-dark table-reflow table-bordered">
         <thead>
         <tr>

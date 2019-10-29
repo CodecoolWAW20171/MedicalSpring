@@ -79,7 +79,7 @@ public abstract class User {
     private String mobilePhoneNumber;
 
     public abstract Integer getResultOfTheTreatment(Treatment treatment);
-    public abstract Map<Treatment, Integer> getCountTreat();
+    public abstract Map<Treatment, Integer> getTreatmentResultMap();
 
     /* public String getComments() {
         return comments;

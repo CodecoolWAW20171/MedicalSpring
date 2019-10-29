@@ -69,7 +69,7 @@ public class Patient extends User {
     }
 
     @Override
-    public Map<Treatment, Integer> getCountTreat() {
+    public Map<Treatment, Integer> getTreatmentResultMap() {
         return null;
     }
 
