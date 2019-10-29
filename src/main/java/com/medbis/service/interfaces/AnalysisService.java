@@ -61,6 +61,8 @@ public interface AnalysisService {
 
     List<VisitTreatment> getVisitTreatmentsDoneInMonth(int month);
 
+    Map<Treatment, Integer> takeSumOfOneTreatmentDoneInMonth(int month);
+
     LocalDate getLastDayOfMonth(int month);
 }
 

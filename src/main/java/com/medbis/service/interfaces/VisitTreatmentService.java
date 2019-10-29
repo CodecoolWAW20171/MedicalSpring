@@ -20,4 +20,6 @@ public interface VisitTreatmentService {
 
     List<VisitTreatment> getVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate);
 
+    int takeSumOfOneTreatmentDoneInMonth(int id, LocalDate startDate, LocalDate endDate);
+
 }

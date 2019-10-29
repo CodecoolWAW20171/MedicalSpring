@@ -63,7 +63,10 @@
     <tr th:each="treatment: ${treatments}">
         <td th:text="${treatment.getName()}"></td>
         <td th:text="${employee.getResultOfTheTreatment(treatment)}" class="text-center" th:each="employee: ${employees}"></td>
-        <td class="text-center"  th:text="*{totalTreatmentsDone.get(treatment)}"></td>
+        <td class="text-center" >
+            <p th:if="${month == null}"  th:text="*{totalTreatmentsDone.get(treatment)}"></p>
+            <p th:unless="${month == null}" th:text="*{sumOfOneTreatmentByMonth.get(treatment)}"></p>
+        </td>
     </tr>
         </tbody>
 

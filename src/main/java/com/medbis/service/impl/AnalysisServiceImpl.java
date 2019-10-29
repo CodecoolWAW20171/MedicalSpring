@@ -3,6 +3,7 @@ package com.medbis.service.impl;
 import com.medbis.entity.*;
 import com.medbis.repository.VisitRepository;
 import com.medbis.service.interfaces.AnalysisService;
+import com.medbis.statistics.TreatmentCounter;
 import com.medbis.statistics.VisitsCounter;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,16 @@ public class AnalysisServiceImpl implements AnalysisService {
     private VisitServiceImpl visitService;
     private EmployeeServiceImpl employeeService;
     private VisitsCounter visitsCounter;
+    private TreatmentCounter treatmentCounter;
 
-    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService, VisitsCounter visitsCounter) {
+    public AnalysisServiceImpl(VisitRepository visitRepository, TreatmentServiceImpl treatmentService, VisitTreatmentServiceImpl visitTreatmentService, VisitServiceImpl visitService, EmployeeServiceImpl employeeService, VisitsCounter visitsCounter, TreatmentCounter treatmentCounter) {
         this.visitRepository = visitRepository;
         this.treatmentService = treatmentService;
         this.visitTreatmentService = visitTreatmentService;
         this.visitService = visitService;
         this.employeeService = employeeService;
         this.visitsCounter = visitsCounter;
+        this.treatmentCounter = treatmentCounter;
     }
 
     @Override
@@ -215,6 +218,11 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Override
     public List<VisitTreatment> getVisitTreatmentsDoneInMonth(int month) {
         return visitTreatmentService.getVisitTreatmentsDoneInMonth(LocalDate.of(2019,month,1),getLastDayOfMonth(month));
+    }
+
+    @Override
+    public Map<Treatment, Integer> takeSumOfOneTreatmentDoneInMonth(int month) {
+        return treatmentCounter.takeSumOfOneTreatmentDoneInMonth(month);
     }
 
 

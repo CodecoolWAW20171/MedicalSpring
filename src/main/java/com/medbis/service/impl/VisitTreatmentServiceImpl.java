@@ -57,5 +57,10 @@ public class VisitTreatmentServiceImpl implements VisitTreatmentService {
         return visitTreatmentRepository.takeVisitTreatmentsDoneInMonth(startDate, endDate);
     }
 
+    @Override
+    public int takeSumOfOneTreatmentDoneInMonth(int id, LocalDate startDate, LocalDate endDate) {
+        return visitTreatmentRepository.takeSumOfOneTreatmentDoneInMonth(id, startDate, endDate);
+    }
+
 
 }

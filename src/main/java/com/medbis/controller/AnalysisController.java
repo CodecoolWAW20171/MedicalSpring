@@ -97,6 +97,8 @@ public class AnalysisController {
            err.printStackTrace();
         }
 
+        model.addAttribute("sumOfOneTreatmentByMonth", analysisService.takeSumOfOneTreatmentDoneInMonth(month));
+
         model.addAttribute("totalTreatmentsDone", analysisService.sortTreatmentsCounterMap(analysisService.createTreatmentsCounterMap(treatments)));
         model.addAttribute("sumOfPlannedVisits", analysisService.countVisitsByVisitStatusAndVisitDateBetween(false, month));
         model.addAttribute("sumOfDoneVisits", analysisService.countVisitsByVisitStatusAndVisitDateBetween(true, month));
