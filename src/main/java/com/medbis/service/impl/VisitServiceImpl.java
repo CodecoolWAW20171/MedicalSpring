@@ -54,8 +54,8 @@ public class VisitServiceImpl implements VisitService {
         return visitRepository.findByVisitStatusIsTrue();
     }
 
-    @Override
-    public boolean checkIfNewVisitAdded(int initialAmountOfPlannedVisit){
+
+    private boolean isNewVisitAdded(int initialAmountOfPlannedVisit){
         int actualAmountOfPlannedVisit = this.visitRepository.findByVisitStatusIsFalse().size();
         return initialAmountOfPlannedVisit + 1 == actualAmountOfPlannedVisit;
     }
@@ -73,6 +73,16 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public List<Visit> findPlannedVisitsByEmployeeId(int id) {
         return visitRepository.findByVisitStatusIsFalseAndEmployeeId(id);
+    }
+
+    public String setCorrectAction(int initialAmountOfPlannedVisit){
+        if(isNewVisitAdded(initialAmountOfPlannedVisit)) return "addVisit";
+        else return "editVisit";
+    }
+
+    @Override
+    public List<Visit> findAllByVisitPatientIdOrderByVisitDateDesc(int id) {
+        return visitRepository.findAllByVisitPatientIdOrderByVisitDateDesc(id);
     }
 
 

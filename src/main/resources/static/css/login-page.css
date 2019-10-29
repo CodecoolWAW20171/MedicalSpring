@@ -3,7 +3,8 @@ body {
     margin: 0%;
 }
 .bg{
-    background-image: url("https://www.ccmrecruitment.com/wp-content/uploads/2017/09/nurse-managers-cover.jpg") ;
+
+    background-image: url("login_page.jpg") ;
     background-repeat: no-repeat;
     height: 100%;
     background-attachment: fixed;

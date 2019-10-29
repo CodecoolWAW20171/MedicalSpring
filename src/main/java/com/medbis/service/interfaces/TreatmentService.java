@@ -3,6 +3,7 @@ package com.medbis.service.interfaces;
 import com.medbis.entity.Treatment;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,9 @@ void deleteById(int id);
 void save(Treatment treatment);
 
 List<Treatment> findAllByCategoryId(int categoryId);
+
+
+HashMap<String, List<HashMap<String, Object>>> findAllTreatmentsByCategory();
 
 Integer getTotalTreatmentsDoneEmployee(int id);
 

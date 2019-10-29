@@ -32,7 +32,7 @@ public class PatientServiceImpl implements UserService {
         if(result.isPresent()){
             patient = result.get();
         }else{
-            throw new RuntimeException("Dod not find patient id" + id);
+            throw new RuntimeException("Dod not find patient with id: " + id);
         }
         return patient;
     }

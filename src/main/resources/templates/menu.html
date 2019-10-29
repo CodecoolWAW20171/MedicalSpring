@@ -1,99 +1,121 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="" lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Material Design Bootstrap</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/MDB/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link th:href="@{/MDB/css/mdb.min.css}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link th:href="@{/MDB/css/style.css}" rel="stylesheet">
 </head>
 
+<body>
 
+<!-- Start your project here-->
 <header th:fragment="title-menu">
-    <div class="container pt-2" style="padding-bottom: 2%;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-info" >
-        <a class="navbar-brand text-warning" href="/patients">Medical Spring</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark indigo">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/patients">Pacjenci <span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == false" class="nav-item active">
-                    <a class="nav-link" th:href="@{/visits(status=false)}"><span class="sr-only">(current)</span>Wizyty zaplanowane</a>
-                </li>
-                <li th:if="${isAdmin} == false" class="nav-item active">
-                    <a class="nav-link" th:href="@{/visits(status=true)}"><span class="sr-only">(current)</span>Wizyty zrealizowane</a>
-                </li>
-                <li  th:if="${isAdmin} == true" class="nav-item active">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Wizyty
-                        </button>
-                        <div class="dropdown-menu">
+        <!-- Additional container -->
+        <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" th:href="@{/patients}">
+                <img src="/images/cep.png" height="35" alt="mdb logo">
+            </a>
+
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                    aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+
+                <!-- Links -->
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/patients">Pacjenci <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${isAdmin} == false" class="nav-item ">
+                        <a class="nav-link" th:href="@{/visits(status=false)}"><span class="sr-only">(current)</span>Wizyty zaplanowane</a>
+                    </li>
+                    <li th:if="${isAdmin} == false" class="nav-item ">
+                        <a class="nav-link" th:href="@{/visits(status=true)}"><span class="sr-only">(current)</span>Wizyty zrealizowane</a>
+                    </li>
+
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown" th:if="${isAdmin} == true">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Wizyty</a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" th:href="@{/visits(status=false)}"><span class="sr-only">(current)</span>Moje wizyty zaplanowane</a>
                             <a class="dropdown-item" th:href="@{/visits(status=true)}"><span class="sr-only">(current)</span>Moje wizyty zrealizowane</a>
                             <a class="dropdown-item" th:href="@{/visits/all-visits-list}"><span class="sr-only">(current)</span>Wszystkie wizyty</a>
                         </div>
-                    </div>
-                </li>
+                    </li>
 
+                    <li th:if="${isAdmin} == true" class="nav-item ">
+                        <a class="nav-link" href="/medicines">Leki<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${isAdmin} == true" class="nav-item ">
+                        <a class="nav-link" href="/diseases">Choroby <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${isAdmin} == true" class="nav-item ">
+                        <a class="nav-link" href="/treatments">Świadczenia<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${isAdmin} == true" class="nav-item ">
+                        <a class="nav-link" href="/categories">Kategorie <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${isAdmin} == true" class="nav-item ">
+                        <a class="nav-link" href="/analysis">Analiza <span class="sr-only">(current)</span></a>
+                    </li>
 
-
-
-<!--                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/visits(status=false)}"><span class="sr-only">(current)</span>Wizyty zaplanowane</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/visits(status=true)}"><span class="sr-only">(current)</span>Wizyty zrealizowane</a>
-                </li>-->
-
-                   <!-- <a class="nav-link" href="/visits">Wizyty<span class="sr-only">(current)</span></a>-->
-
-
-                <li th:if="${isAdmin} == true" class="nav-item active">
-                    <a class="nav-link" href="/medicines">Leki<span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == true" class="nav-item active">
-                    <a class="nav-link" href="/diseases">Choroby <span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == true" class="nav-item active">
-                    <a class="nav-link" href="/treatments">Świadczenia<span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == true" class="nav-item active">
-                    <a class="nav-link" href="/categories">Kategorie <span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == true" class="nav-item active">
-                    <a class="nav-link" href="/analysis">Analiza <span class="sr-only">(current)</span></a>
-                </li>
-                <li th:if="${isAdmin} == true" class="nav-item active">
-<!--                    <a class="nav-link" href="/employees">PRACOWNICY<span class="sr-only">(current)</span></a>-->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Pracownicy
-                        </button>
-                        <div class="dropdown-menu">
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown" th:if="${isAdmin} == true">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">Pracownicy</a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="/employees">Pielęgniarki</a>
                             <a class="dropdown-item" href="/doctors">Lekarze</a>
                         </div>
-                    </div>
-                </li>
-        <!--        <li class="nav-item active" style="background-color: red">
-                    <a class="nav-link" href="/logout">Log out!<span class="sr-only">(current)</span></a>
-                </li>-->
+                    </li>
 
-            </ul>
 
-            <a class="btn btn-outline-danger" style="color: white;: red;" th:href="@{/logout}" th:text="'Wyloguj: ' + ${name} +' '+ ${surname}"></a>
+
+                </ul>
+
+                <a class="pt-1 pb-1 btn btn-outline-danger" th:href="@{/logout}" th:text="'Wyloguj: ' + ${name} +' '+ ${surname}"></a>
+                <!-- Links -->
+            </div>
+            <!-- Collapsible content -->
         </div>
-        </nav>
-
-    </div>
+        <!-- Additional container -->
+    </nav>
+    <!--/.Navbar-->
 
 </header>
+<!-- Start your project here-->
 
-
-<body>
-
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" th:src="@{/MDB/js/jquery-3.4.1.min.js}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" th:src="@{/MDB/js/popper.min.js}" ></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" th:src="@{/MDB/js/bootstrap.min.js}" ></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" th:src="@{/MDB/js/mdb.min.js}"></script>
 </body>
+
 </html>
+
+

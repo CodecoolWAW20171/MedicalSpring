@@ -43,4 +43,12 @@ public class VisitTreatmentId implements Serializable {
     public int hashCode() {
         return Objects.hash(getVisit(), getTreatment());
     }
+
+    @Override
+    public String toString() {
+        return "VisitTreatmentId{" +
+                "visit=" + visit +
+                ", treatment=" + treatment +
+                '}';
+    }
 }

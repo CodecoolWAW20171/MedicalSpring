@@ -1,5 +1,6 @@
 package com.medbis.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Patient extends User {
     private int patientId;
 
     @OneToMany(mappedBy="patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JsonManagedReference
     private Set<Visit> visitsPatients;
 
     @Column(name = "comments")
@@ -63,6 +65,17 @@ public class Patient extends User {
     private int doctorId;
 
 
+//    @Override
+//    public String toString() {
+//        return "Patient{" +
+//                "patientId=" + patientId +
+//                ", comments='" + comments + '\'' +
+//                ", patientMedicines=" + patientMedicines +
+//                ", patientDiseases=" + patientDiseases +
+//                '}';
+//    }
+
+
     @Override
     public Integer getResultOfTheTreatment(Treatment treatment) {
         return null;
@@ -78,8 +91,10 @@ public class Patient extends User {
         return "Patient{" +
                 "patientId=" + patientId +
                 ", comments='" + comments + '\'' +
+                ", mail='" + mail + '\'' +
                 ", patientMedicines=" + patientMedicines +
                 ", patientDiseases=" + patientDiseases +
+                ", doctorId=" + doctorId +
                 '}';
     }
 }

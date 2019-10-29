@@ -69,9 +69,12 @@ public abstract class User {
     @Column(name = "apartment_number")
     private String apartmentNumber;
 
+    @Pattern(regexp = "^[0-9]{0}|^[0-9]{9}", message = "only 5 digits")
     @Column(name = "home_phone_number")
     private String homePhoneNumber;
-
+//"^[0-9]{10}$|^[0-9]{12}$"
+   @Pattern(regexp = "^[0-9]{0}|^[0-9]{9}", message = "only 5 digits")
+//    @Pattern(regexp = "^[0-9]*$", message = "only 9 digits")
     @Column(name = "work_phone_number")
     private String workPhoneNumber;
 

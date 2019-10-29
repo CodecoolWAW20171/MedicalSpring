@@ -24,11 +24,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     public Doctor findById(int id) {
-        Optional<Doctor> disease = this.doctorRepository.findById(id);
-        if (!disease.isPresent()) {
-            throw new RuntimeException("item with" + id + "not found");
+        Optional<Doctor> doctor = this.doctorRepository.findById(id);
+        if (!doctor.isPresent()) {
+            throw new RuntimeException("Doctor, item with " + id + " not found");
         }
-        return disease.get();
+        return doctor.get();
     }
 
     @Override

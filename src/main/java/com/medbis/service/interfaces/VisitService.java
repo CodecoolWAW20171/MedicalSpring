@@ -18,14 +18,15 @@ public interface VisitService {
 
     List<Visit> findAccomplishedVisits();
 
-    boolean checkIfNewVisitAdded(int initialAmountOfPlannedVisit);
-
-
     List<Visit> findAllByEmployeeId(int id);
 
     List<Visit> findAccomplishedVisitsByEmployeeId(int id);
 
     List<Visit> findPlannedVisitsByEmployeeId(int id);
+
+    String setCorrectAction(int isNewVisitAdded);
+
+    List<Visit> findAllByVisitPatientIdOrderByVisitDateDesc(int id);
 }
 
 

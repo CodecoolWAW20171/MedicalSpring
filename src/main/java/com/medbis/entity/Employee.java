@@ -1,5 +1,6 @@
 package com.medbis.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,7 @@ public class Employee extends User{
     private boolean passwordChanged;
 
     @OneToMany(mappedBy="employee", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JsonManagedReference
     private Set<Visit> visitsEmployee;
 
     public String getPermissions() {

@@ -29,8 +29,8 @@ public class Doctor {
     @NotNull(message = "is required")
     private String surname;
 
-    @Column(name = "work_phone_number")
-    private String workPhoneNumber;
+    @Column(name = "home_phone_number")
+    private String homePhoneNumber;
 
     @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;

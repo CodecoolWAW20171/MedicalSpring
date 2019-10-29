@@ -2,8 +2,12 @@ function ParsePesel()
 {
     var s = document.getElementById("pesel").value;
     //Sprawdź długość, musi być 11 znaków
-    if (SetError(s.length != 11))
+    if (SetError(s.length != 11)){
+        $(sex).val(plec).trigger("-");
+        $(birthdayd).val("-");
         return;
+    }
+
 
     //Sprawdź, czy wszystkie znaki to cyfry
     var aInt = new Array();
@@ -38,14 +42,18 @@ function ParsePesel()
     //Sprawdź poprawność daty urodzenia
     if (SetError(!checkDate(dzien,miesiac,rok)))
         return;
-    var plec = (aInt[9]%2==1)?"man":"woman";
+    var plec = (aInt[9]%2==1)?"Mężczyzna":"Kobieta";
 
     //Uzupełnij pola wchodzące w skład numeru PESEL
     // document.getElementById("rok").value = rok;
     // document.getElementById("miesiac").value = miesiac;
     // document.getElementById("dzien").value = dzien;
-    document.getElementById("sex").value = plec;
-    document.getElementById("birthday").value = dzien.toString().concat(".","0".concat(miesiac.toString()).slice(-2),".",rok.toString());
+    // document.getElementById("sex").value = plec;
+    // document.getElementById("birthdayd").value = dzien.toString().concat(".","0".concat(miesiac.toString()).slice(-2),".",rok.toString());
+    $(sex).val(plec).trigger("change");
+    $(birthdayd).val(rok.toString().concat("-","0".concat(miesiac.toString()).slice(-2),"-",dzien.toString())).trigger("change");
+
+    // $('#my-datepicker').datepicker('setDate', 'now');
 }
 function SetError(c){
     // document.getElementById("hasError").style.visibility=(c?"visible":"hidden");

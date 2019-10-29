@@ -34,7 +34,9 @@
 
 <!--    <p class="btn btn-info btn-sm mb-1 mt-1">Fill form to add new visit</p>-->
 
-    <form action="#" th:action="@{/visits/{action}/addNewVisit(action='edit')}" th:object="${visit}" method="POST">
+    <form action="#" th:action="@{/visits/{action}/addNewVisit(action='edit', backTo=${backTo})}" th:object="${visit}" method="POST">
+        <h1 th:text="${'Backo To : ' + backTo}"> </h1>
+
         <input type="hidden" th:value="${patientId}" name="visitPatientId" />
         <input type="hidden" th:value="${employeeId}" name="visitEmployeeId" />
         <!--            for UPDATE -->
@@ -85,6 +87,7 @@
                     </div>
                     <div class="row mt-1">
                         <input type="submit" value="Wyślij" class="btn btn-outline-primary w-100">
+                        <input type="button" value="Go Back From Whence You Came!" onclick="history.back(-1)" />
                         <a class="btn btn-outline-dark mb-1 mt-1" th:href="@{/visits/}">Wstecz</a>
                     </div>
 
@@ -104,6 +107,42 @@
                         </div>
 
                         <div class="card">
+
+<!--                            </table>-->
+<!--                            <table class="table">-->
+<!--                                <tbody id="diseaseTableF" th:fragment="diseaseTableF">-->
+<!--                                <tr id="diseaseCss" th:each="disease,diseaseStat : ${patient.patientDiseases}">-->
+<!--                                    <td class="py-0 align-middle text-center" th:text="${diseaseStat.count}">1</td>-->
+<!--                                    <td class="py-0 w-75">-->
+<!--                                        <select class="py-0 my-0 diffrentDisease mdb-select md-form selectDisease"-->
+<!--                                                onchange="checkDisease()"-->
+<!--                                                searchable="Szukaj choroby.."-->
+<!--                                                size="6"-->
+<!--                                                th:field="${patient.patientDiseases[__${diseaseStat.index}__]}"-->
+<!--                                                th:required="true">-->
+<!--                                            <option class="mb-0" th:disabled="false" th:selected="true" value="">-->
+<!--                                                Wybierz chorobę >>-->
+<!--                                            </option>-->
+<!--                                            <option th:each="diseaseToAdd : ${allDiseases}"-->
+<!--                                                    th:text="${diseaseToAdd.getDiseaseName()}"-->
+<!--                                                    th:value="${diseaseToAdd.getDiseaseId()}">Thymus Thymi-->
+<!--                                            </option>-->
+<!--                                        </select>-->
+<!--                                    </td>-->
+<!--                                    <td class="py-0 text-center w-25">-->
+<!--                                        <button class="py-1 px-2 btn btn-outline-danger btn-rounded waves-effect"-->
+<!--                                                name="removeRow"-->
+<!--                                                onclick="dellRowDisease(event)"-->
+<!--                                                th:value="${diseaseStat.index}"-->
+<!--                                                type="button">Usuń-->
+<!--                                        </button>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+
+
                             <table class="table">
                                 <tbody th:each="visitTreatment,visitTreatmentStat : *{visitTreatments}">
                                     <tr>
