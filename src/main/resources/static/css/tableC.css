@@ -184,7 +184,7 @@ td {
     .navigation {
         -webkit-flex-flow: column wrap;
         flex-flow: column wrap;
-        padding: 0;
+        margin-top: 5px;
     }
 }
 
