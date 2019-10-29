@@ -9,11 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Map;
 
 @Setter
 @Getter
 @MappedSuperclass
-public class User {
+public abstract class User {
 
     @NotNull(message = "is required")
     @Pattern(regexp = "^[0-9]{11}", message = "only 11 digits")
@@ -80,6 +81,8 @@ public class User {
     @Column(name = "mobile_phone_number")
     private String mobilePhoneNumber;
 
+    public abstract Integer getResultOfTheTreatment(Treatment treatment);
+    public abstract Map<Treatment, Integer> getTreatmentResultMap();
 
     /* public String getComments() {
         return comments;

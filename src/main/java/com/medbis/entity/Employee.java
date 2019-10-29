@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Component
@@ -51,13 +48,47 @@ public class Employee extends User{
 
     private String permissions;
 
+
+
+    public void setTreatmentResultMap(Map<Treatment, Integer> treatmentResultMap) {
+        this.treatmentResultMap = treatmentResultMap;
+    }
+
+    @Override
+    public Map<Treatment, Integer> getTreatmentResultMap() {
+        try{
+            return this.treatmentResultMap;
+        }
+        catch (NullPointerException err){
+            return new HashMap<>();
+        }
+    }
+
+
+
+
+    @Override
+    public Integer getResultOfTheTreatment(Treatment treatment){
+        try {
+            return this.getTreatmentResultMap().get(treatment);
+        }
+        catch (NullPointerException err){
+            return 0;
+        }
+
+    }
+
+
+    @Transient
+    private Map<Treatment, Integer> treatmentResultMap;
+
+
     public Employee(String password, @NotEmpty String login, String permissions) {
-        this.id = id;
         this.password = password;
         this.login = login;
         this.passwordChanged = false;
         this.permissions = permissions;
-
+        this.treatmentResultMap = new HashMap<>();
     }
 
     public List<String> getPermissionsList() throws NullPointerException {
@@ -96,14 +127,6 @@ public class Employee extends User{
         this.login = login;
     }
 
-//    public Set<Visit> getVisitsEmployee() {
-//        return visitsEmployee;
-//    }
-//
-//    public void setVisitsEmployee(Set<Visit> visitsEmployee) {
-//        this.visitsEmployee = visitsEmployee;
-//    }
-
 
     public boolean isPasswordChanged() {
         return passwordChanged;
@@ -112,4 +135,27 @@ public class Employee extends User{
     public void setPasswordChanged(boolean passwordChanged) {
         this.passwordChanged = passwordChanged;
     }
+
+    public void raiseResultOfTreatmentDone(Treatment treatment){
+        int result = 0;
+        try {
+            result = this.treatmentResultMap.get(treatment) + 1;
+        }
+        catch (NullPointerException err){
+            result = 1;
+        }
+        finally {
+            this.treatmentResultMap.put(treatment, result);
+        }
+
+    }
+
+    public void generateMapOfTreatments(List<Treatment> treatments) {
+        Map<Treatment, Integer> treatmentIntegerMap = new HashMap<>();
+        for (Treatment treatment : treatments) {
+            treatmentIntegerMap.put(treatment, 0);
+        }
+        setTreatmentResultMap(treatmentIntegerMap);
+    }
+
 }

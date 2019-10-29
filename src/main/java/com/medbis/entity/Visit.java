@@ -58,8 +58,15 @@ public class Visit {
     @OneToMany(mappedBy = "primaryKey.visit", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<VisitTreatment> visitTreatments = new ArrayList<>();
 
-    public List<VisitTreatment> getVisitTreatments() {
-        return visitTreatments;
+    public List<VisitTreatment> getVisitTreatments(int id) {
+        List<VisitTreatment> treatments = new ArrayList<>();
+        for(VisitTreatment vt : visitTreatments){
+            if(vt.getPrimaryKey().getVisit().getVisitId() == id){
+                treatments.add(vt);
+            }
+            return treatments;
+        }
+      return  treatments;
     }
     public void setVisitTreatments(List<VisitTreatment> visitTreatments) {
         this.visitTreatments = visitTreatments;

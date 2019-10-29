@@ -1,6 +1,8 @@
 package com.medbis.controller;
 
-import com.medbis.entity.*;
+import com.medbis.entity.Patient;
+import com.medbis.entity.Visit;
+import com.medbis.entity.VisitTreatment;
 import com.medbis.mail.MailService;
 import com.medbis.pdf.PdfGenerator;
 import com.medbis.repository.TreatmentRepository;
@@ -34,8 +36,8 @@ public class VisitController {
     private CategoryService categoryService;
     private TreatmentService treatmentService;
     private MailService mailService;
+    private UserService employeeService;
     private DoctorServiceImpl doctorService;
-
 
     @Autowired
     public VisitController(VisitService visitService,
@@ -43,12 +45,14 @@ public class VisitController {
                            CategoryService categoryService,
                            TreatmentService treatmentService,
                            MailService mailService,
-                           DoctorServiceImpl doctorService ) {
+                           @Qualifier("EmployeeServiceImpl") UserService employeeService,
+                           DoctorServiceImpl doctorService) {
         this.visitService = visitService;
         this.userService = userService;
         this.categoryService = categoryService;
         this.treatmentService = treatmentService;
         this.mailService = mailService;
+        this.employeeService = employeeService;
         this.doctorService = doctorService;
     }
 
@@ -107,6 +111,7 @@ public class VisitController {
         int initialAmountOfPlannedVisit = visitService.findPlannedVisits().size();
         for(VisitTreatment visitTreatment: theVisit.getVisitTreatments()){
             visitTreatment.setVisit(theVisit);
+
         }
         visitService.save(theVisit);
 

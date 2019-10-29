@@ -6,9 +6,11 @@ import com.medbis.service.interfaces.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -80,4 +82,20 @@ public class TreatmentServiceImpl implements TreatmentService {
     public List<Treatment> findAllByCategoryId(int categoryId) {
         return treatmentRepository.findAllByCategoryId(categoryId);
     }
+
+    @Override
+    public Integer getTotalTreatmentsDoneEmployee(int id) {
+        return treatmentRepository.getTotalTreatmentsDoneEmployee(id);
+    }
+
+    @Override
+    public Integer countByEmployeeByMonth(int id, LocalDate firstDayOfMonthDate, LocalDate lastDayOfMonthDate) {
+        return treatmentRepository.countByEmployeeByMonth(id, firstDayOfMonthDate, lastDayOfMonthDate);
+    }
+
+    @Override
+    public Map<Integer, Integer> getAmountSingleTreatmentDoneEmployee() {
+        return treatmentRepository.getAmountSingleTreatmentDoneEmployee();
+    }
+
 }

@@ -9,10 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/analysis.css}"/>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/statsDisplayer.js}"></script>
 
 </head>
 <body>
@@ -20,38 +22,24 @@
 <div class="mt-10">
     <header id="header" class="alt" th:include="menu :: title-menu" />
 </div>
-
-
-
 <div class="container">
+    <div id="year">
+        <form>
+            <div class="form-group">
+                Rok <input type="number" name="year" value="2019" min="2017" max="2019">
+            </div>
+        </form>
+    </div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-info">
-        <div class="container-fluid">
 
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=01)}">Styczeń</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=02)}">Luty</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=03)}">Marzec</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=04)}">Kwiecień</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=05)}">Maj</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=06)}">Czerwiec</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=07)}">Lipiec</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=08)}">Sierpień</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=09)}">Wrzesień</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=10)}">Październik</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=11)}">Listopad</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/analysis/details(month=12)}">Grudzień</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <table class="table table-striped table-hover table-sm" >
-        <thead class="thead-dark">
+    <div class="dataTable">
+        <div th:if="${month != null}" th:text="*{month}"></div>
+    <table class="table table-hover table-dark table-reflow table-bordered">
+        <thead>
         <tr>
-            <th> </th>
-            <th th:each="employee : ${employees}" th:text="${employee.getName() + ' ' +  employee.getSurname()}"></th>
+            <th></th>
+            <th th:each="employee : ${employees}" th:text="${employee.getName().substring(0,1) + '.' + ' ' +  employee.getSurname()}"></th>
             <th>Razem</th>
-
         </tr>
         </thead>
         <tbody>
@@ -67,22 +55,50 @@
             <td class="text-center" th:text="*{sumOfDoneVisits}"></td>
         </tr>
 
-
-    <!--    <tr>
-            <td>Wizyty miesięcznie</td>
-            <td th:each="employee : ${employees}" th:text="*{counter}"></td>
-        </tr>-->
-        <tr>
+    <tr>
             <td>Wykonane świadczenia</td>
-            <td th:each="employee : ${employees}" th:text="*{counter}"></td>
-        </tr>
+            <td class="text-center" th:each="employee, iter : ${employees}" th:text="${treatmentsByEmployees.get(iter.index)}"></td>
+        <td class="text-center" th:text="*{sumOfTreatmentsByEmployee}"></td>
 
+    </tr>
+
+    <tr th:each="treatment: ${treatments}">
+        <td th:text="${treatment.getName()}"></td>
+        <td th:text="${employee.getResultOfTheTreatment(treatment)}" class="text-center" th:each="employee: ${employees}"></td>
+        <td class="text-center" >
+            <p th:if="${month == null}"  th:text="*{totalTreatmentsDone.get(treatment)}"></p>
+            <p th:unless="${month == null}" th:text="*{sumOfOneTreatmentByMonth.get(treatment)}"></p>
+        </td>
+    </tr>
         </tbody>
+
     </table>
-    </div>
+</div>
+<div class="input">
+
+    <div>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=01)}">Styczeń</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=02)}">Luty</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=03)}">Marzec</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=04)}">Kwiecień</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=05)}">Maj</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=06)}">Czerwiec</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=07)}">Lipiec</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=08)}">Sierpień</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=09)}">Wrzesień</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=10)}">Październik</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=11)}">Listopad</a></li>
+                <li class="list-group-item list-group-item-action w-50"><a th:href="@{/analysis/details(month=12)}">Grudzień</a></li>
+            </ul>
     </div>
 </div>
-</div>
+
+    </div>
+
+
+
 
 </body>
+
 </html>

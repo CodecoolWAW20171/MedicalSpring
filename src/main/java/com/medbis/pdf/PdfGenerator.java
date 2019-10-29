@@ -5,12 +5,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.medbis.entity.Visit;
-import lombok.Data;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-@Data
+
 public class PdfGenerator {
 
     private Visit visit;
@@ -19,8 +18,7 @@ public class PdfGenerator {
         this.visit = visit;
     }
 
-
-    public String generateFileName() {
+    private String generateFileName() {
         StringBuilder stringBuilder = new StringBuilder();
         String filename;
         stringBuilder.append(this.visit.getVisitDate())
@@ -33,34 +31,60 @@ public class PdfGenerator {
     }
 
 
-    public FileOutputStream createFile() throws FileNotFoundException {
+    private FileOutputStream createFile() throws FileNotFoundException {
         return new FileOutputStream(generateFileName());
     }
 
-    public PdfWriter createPdfWriter() throws FileNotFoundException, DocumentException {
-        return PdfWriter.getInstance(new Document(), createFile());
+    private void addContent(Document document)
+            throws DocumentException {
+        Paragraph preface = new Paragraph();
+        ContentGenerator contentGenerator = new ContentGenerator(visit);
+
+        addEmptyLine(preface, 1);
+        preface.add(contentGenerator.getTitle());
+        addEmptyLine(preface, 2);
+        preface.add(contentGenerator.getSubTitle("patient"));
+        addEmptyLine(preface,1);
+        preface.add(contentGenerator.getPatientInfo());
+        addEmptyLine(preface, 1);
+        preface.add(contentGenerator.getSubTitle("visit"));
+        addEmptyLine(preface,1);
+        preface.add(contentGenerator.getVisitInfo());
+        addEmptyLine(preface, 1);
+
+       /*
+        wyciagnac z bazy te swiadczenia todo
+       */
+        preface.add(contentGenerator.getSubTitle("treatments"));
+        //dodane tylko testowo
+        preface.add(new Paragraph("swiadczenie1"));
+        preface.add(new Paragraph("swiadczenie2"));
+        preface.add(new Paragraph("swiadczenie3"));
+        addEmptyLine(preface,1);
+        document.add(preface);
     }
 
-
-    public void setDocumentContent(Document document) throws DocumentException {
-        document.add(new Paragraph("Wizyta nr" + this.visit.getVisitId()));
-        document.add(new Paragraph("Data wizyty: " + this.visit.getVisitDate()));
-        document.add(new Paragraph("Imię i nazwisko pacjenta: " + this.visit.getPatient().getName() + " " + this.visit.getPatient().getSurname()));
-        document.add(new Paragraph("Pielęgniarka: " + this.visit.getEmployee().getName() + " " + this.visit.getEmployee().getSurname()));
-        //document.add(new Paragraph("Wykonane zabiegi: " + visit.getServices()));
-    }
 
     public void createVisitRaport() {
         try {
             Document document = new Document();
             PdfWriter pdfWriter = PdfWriter.getInstance(document, createFile());
             document.open();
-            setDocumentContent(document);
+            addContent(document);
             document.close();
             pdfWriter.close();
         } catch (FileNotFoundException | DocumentException err) {
             err.printStackTrace();
         }
     }
+
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+
 }
 

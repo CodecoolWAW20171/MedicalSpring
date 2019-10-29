@@ -2,14 +2,12 @@ package com.medbis.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -77,6 +75,16 @@ public class Patient extends User {
 //                '}';
 //    }
 
+
+    @Override
+    public Integer getResultOfTheTreatment(Treatment treatment) {
+        return null;
+    }
+
+    @Override
+    public Map<Treatment, Integer> getTreatmentResultMap() {
+        return null;
+    }
 
     @Override
     public String toString() {
