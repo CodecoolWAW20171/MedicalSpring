@@ -1,11 +1,8 @@
 package com.medbis.controller;
 
-import com.medbis.entity.Patient;
-import com.medbis.entity.Visit;
-import com.medbis.entity.VisitTreatment;
+import com.medbis.entity.*;
 import com.medbis.mail.MailService;
 import com.medbis.pdf.PdfGenerator;
-import com.medbis.repository.TreatmentRepository;
 import com.medbis.security.UserPrincipal;
 import com.medbis.service.impl.DoctorServiceImpl;
 import com.medbis.service.interfaces.CategoryService;
@@ -24,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 

@@ -24,7 +24,8 @@ public interface VisitTreatmentRepository extends JpaRepository<VisitTreatment, 
 
     @Query(value = "SELECT * FROM visits_services vs\n" +
             "JOIN visits v on vs.visit_id = v.visit_id\n" +
-            "where v.date BETWEEN :startDate AND :endDate", nativeQuery = true)
+            "where v.status is TRUE\n" +
+            "and v.date BETWEEN :startDate AND :endDate", nativeQuery = true)
     List<VisitTreatment> takeVisitTreatmentsDoneInMonth(LocalDate startDate, LocalDate endDate);
 
 
